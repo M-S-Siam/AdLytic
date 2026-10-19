@@ -1055,6 +1055,7 @@ export default function AdLedgerApp() {
               subscription={subscription}
               onUpdate={setSubscription}
               businessName={workspaceSettings?.businessName}
+              onNavigate={(view) => setCurrentView(view)}
             />
           </div>
         );
@@ -11346,7 +11347,7 @@ const BD_BANK_CATEGORIES = [
   }
 ];
 
-function BillingPlansView({ subscription, onUpdate, businessName }) {
+function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) {
   const [checkoutPlan, setCheckoutPlan] = useState(null);
   const [checkoutStep, setCheckoutStep] = useState('payment'); // 'payment' (Step 2) | 'done' (Step 3)
   const [paymentMethod, setPaymentMethod] = useState('bkash'); // 'bkash' | 'nagad' | 'card' | 'bank'
@@ -11464,7 +11465,8 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
       const receipt = {
         trxId: generatedTrxId,
         invoiceNumber: orderRef,
-        bankRef: bankRefNum,
+        bankRef: (paymentMethod === 'bkash' || paymentMethod === 'nagad') ? null : bankRefNum,
+        rawMethod: paymentMethod,
         date: dateStr,
         amount: checkoutPlan.price,
         planName: checkoutPlan.name,
@@ -12401,7 +12403,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
 
                 <div>
                   <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-[11px] uppercase tracking-wider border border-emerald-500/30">
-                    ✓ Bangladesh Bank NPSB Approved
+                    ✓ {completedReceipt.rawMethod === 'bkash' ? 'bKash Merchant PGW Approved' : completedReceipt.rawMethod === 'nagad' ? 'Nagad Official MFS Approved' : 'Bangladesh Bank NPSB Approved'}
                   </span>
                   <h3 className="text-2xl font-black text-white mt-2">
                     Payment Successful &amp; Pro Activated!
@@ -12428,10 +12430,12 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
-                    <span className="text-slate-400 font-sans">Bangladesh Bank Ref:</span>
-                    <span className="font-bold text-slate-200">{completedReceipt.bankRef}</span>
-                  </div>
+                  {completedReceipt.bankRef && (
+                    <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
+                      <span className="text-slate-400 font-sans">Bangladesh Bank Ref:</span>
+                      <span className="font-bold text-slate-200">{completedReceipt.bankRef}</span>
+                    </div>
+                  )}
 
                   <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
                     <span className="text-slate-400 font-sans">Payment Method:</span>
@@ -12451,15 +12455,28 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
-                <div className="flex items-center justify-center pt-2">
+                {/* Action Area: Download Icon & Finish Button */}
+                <div className="flex flex-col items-center justify-center gap-3 pt-2">
                   <button
                     type="button"
                     onClick={() => handlePrintReceipt(completedReceipt)}
-                    className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 cursor-pointer"
+                    className="w-10 h-10 rounded-full bg-[#151c2e] hover:bg-[#1e293b] border border-[#2d3a54] text-slate-300 hover:text-emerald-400 flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 active:scale-95"
+                    title="Download Official Tax Receipt"
                   >
-                    <Download size={15} />
-                    <span>Download Official Tax Receipt</span>
+                    <Download size={18} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCheckoutPlan(null);
+                      if (onNavigate) {
+                        onNavigate('dashboard');
+                      }
+                    }}
+                    className="w-full sm:w-auto px-8 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 transition-all cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span>Finish</span>
                   </button>
                 </div>
               </div>
