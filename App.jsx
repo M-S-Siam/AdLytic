@@ -13068,28 +13068,7 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
         })}
       </div>
 
-      {/* DEDICATED NOTICE: SUBSCRIPTION ACCESSIBLE VIA SIDEBAR */}
-      <div className="p-3.5 rounded-xl bg-gradient-to-r from-sky-500/10 via-indigo-500/10 to-amber-500/10 border border-sky-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
-            <Crown size={15} />
-          </div>
-          <div>
-            <span className="font-bold text-slate-800">Subscription & Billing Plans</span>
-            <span className="text-slate-500 ml-1.5 hidden sm:inline">is now accessible directly from the left sidebar navigation.</span>
-          </div>
-        </div>
-        {onNavigate && (
-          <button
-            type="button"
-            onClick={() => onNavigate('subscription')}
-            className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] shrink-0 transition-all cursor-pointer flex items-center gap-1 shadow-sm self-start sm:self-auto"
-          >
-            <span>Open Subscription & Plans</span>
-            <ArrowRight size={13} />
-          </button>
-        )}
-      </div>
+
 
       {/* ================= TAB 1: GENERAL & BRANDING ================= */}
       {activeTab === 'branding' && (
