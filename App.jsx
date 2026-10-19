@@ -11426,7 +11426,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
           ? (senderPhone.trim() || '+8801874887309')
           : paymentMethod === 'card'
             ? ('Card ending in ' + (cardNumber.replace(/\s/g, '').slice(-4) || '4242'))
-            : (bankSenderName.trim() || 'BRAC Bank NPSB');
+            : (bankSenderName.trim() || 'Dutch Bangla Bank NPSB');
 
       const receipt = {
         trxId: generatedTrxId,
@@ -12232,27 +12232,27 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                       <div className="p-4 rounded-xl bg-[#0f172a] border border-[#1e293b] space-y-2 text-xs font-mono">
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Bank Name:</span>
-                          <span className="font-bold text-white">BRAC Bank PLC</span>
+                          <span className="font-bold text-white">Dutch Bangla Bank PLC</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Account Name:</span>
-                          <span className="font-bold text-white">Quantrex Technologies Ltd.</span>
+                          <span className="font-bold text-white">Md. Shahariar Siam</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Account Number:</span>
-                          <span className="font-bold text-white">1501 2048 8730 9001</span>
+                          <span className="font-bold text-white tracking-wider">3177348844425</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Routing Number:</span>
-                          <span className="font-bold text-teal-300">060261356</span>
+                          <span className="font-bold text-teal-300">090270608</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">SWIFT Code:</span>
-                          <span className="font-bold text-teal-300">BRAKBDDH</span>
+                          <span className="font-bold text-teal-300">DBBLBDDH</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Branch:</span>
-                          <span className="font-bold text-slate-300">Gulshan-1 Branch, Dhaka</span>
+                          <span className="font-bold text-slate-300">Agent Banking (Dhaka South)</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-slate-400 font-sans">Transfer Channel:</span>
@@ -12263,7 +12263,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                       <div className="flex justify-end">
                         <button
                           type="button"
-                          onClick={() => handleCopy('Bank: BRAC Bank PLC\nAccount Name: Quantrex Technologies Ltd.\nA/C No: 1501204887309001\nRouting: 060261356\nSWIFT: BRAKBDDH\nBranch: Gulshan-1 Branch, Dhaka', 'bank')}
+                          onClick={() => handleCopy('Bank: Dutch Bangla Bank PLC\nAccount Name: Md. Shahariar Siam\nA/C No: 3177348844425\nRouting: 090270608\nSWIFT: DBBLBDDH\nBranch: Agent Banking (Dhaka South)\nTransfer Channel: NPSB / BEFTN / RTGS', 'bank')}
                           className="px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                         >
                           {copiedBank ? <Check size={13} className="text-emerald-400 stroke-[3]" /> : <Copy size={13} />}
