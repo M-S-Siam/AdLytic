@@ -884,7 +884,7 @@ export default function AdLedgerApp() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `adledger-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `quantrex-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -905,14 +905,14 @@ export default function AdLedgerApp() {
         if (typeof data.workspaceLogo === 'string') setWorkspaceLogo(data.workspaceLogo);
         window.alert('Backup restored successfully.');
       } catch (error) {
-        window.alert('This file is not a valid AdLedger backup.');
+        window.alert('This file is not a valid Quantrex backup.');
       }
     };
     reader.readAsText(file);
   };
 
   const resetAllData = () => {
-    if (!window.confirm('This will permanently clear all AdLedger data stored in this browser. Continue?')) return;
+    if (!window.confirm('This will permanently clear all Quantrex data stored in this browser. Continue?')) return;
     setClients([]);
     setCards([]);
     setTransactions([]);
@@ -1181,7 +1181,7 @@ export default function AdLedgerApp() {
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between">
                     <span className={`block text-xs font-black tracking-tight truncate ${theme === 'dark' ? 'text-white' : 'text-slate-900'}`}>
-                      {workspaceSettings.businessName || 'AdLytic CR'}
+                      {workspaceSettings.businessName || 'Quantrex'}
                     </span>
                     <ChevronDown size={13} className="text-slate-400 shrink-0 ml-1 opacity-70" />
                   </div>
@@ -11684,7 +11684,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                   <div className={`font-bold text-xs leading-none ${checkoutStep === 'done' ? 'text-emerald-400' : 'text-slate-400'}`}>
                     Done
                   </div>
-                  <div className="text-[10px] text-slate-500 mt-0.5 hidden sm:block">Start using AdLedger</div>
+                  <div className="text-[10px] text-slate-500 mt-0.5 hidden sm:block">Start using Quantrex</div>
                 </div>
               </div>
             </div>
