@@ -12452,20 +12452,13 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCheckoutPlan(null)}
-                    className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 transition-all cursor-pointer"
-                  >
-                    🎉 Return to Pro Workspace
-                  </button>
+                <div className="flex items-center justify-center pt-2">
                   <button
                     type="button"
                     onClick={() => handlePrintReceipt(completedReceipt)}
-                    className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-[#0d1322] border border-[#1e293b] hover:bg-[#141b2e] text-slate-200 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 cursor-pointer"
                   >
-                    <Download size={14} />
+                    <Download size={15} />
                     <span>Download Official Tax Receipt</span>
                   </button>
                 </div>
