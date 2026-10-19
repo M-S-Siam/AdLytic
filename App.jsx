@@ -11669,9 +11669,26 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
       </div>
 
       {/* ================= MODAL: MODERN SAAS CHECKOUT (DARK MODE + OFFICIAL LOGOS) ================= */}
-      {checkoutPlan && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-[#090d16] text-slate-100 rounded-3xl border border-[#1e293b] shadow-2xl p-5 sm:p-7 space-y-6 my-auto font-sans">
+      {checkoutPlan && typeof document !== "undefined" && createPortal(
+        <div
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setCheckoutPlan(null);
+          }}
+        >
+          <div
+            className="relative w-full max-w-2xl bg-[#090d16] text-slate-100 rounded-3xl border border-[#1e293b] shadow-2xl p-5 sm:p-7 space-y-6 my-auto font-sans"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Top Close Button (X) */}
+            <button
+              type="button"
+              onClick={() => setCheckoutPlan(null)}
+              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full bg-[#1e293b]/80 hover:bg-[#334155] text-slate-400 hover:text-white flex items-center justify-center transition-all cursor-pointer z-20 shadow-xs"
+              title="Close checkout"
+            >
+              <X size={16} />
+            </button>
             
             {/* 1. TOP 3-STEP PROGRESS STEPPER */}
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[#0d1322] border border-[#1e293b] flex items-center justify-between text-xs font-medium select-none">
@@ -12290,7 +12307,8 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
     </div>
@@ -13808,9 +13826,20 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
           </div>
 
           {/* Reset Confirmation Modal */}
-          {showResetModal && (
-            <div className="fixed inset-0 z-[100] bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-4">
-              <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 border border-slate-200 animate-in zoom-in-95">
+          {showResetModal && typeof document !== "undefined" && createPortal(
+            <div
+              className="fixed inset-0 z-[99999] bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  setShowResetModal(false);
+                  setResetConfirmText("");
+                }
+              }}
+            >
+              <div
+                className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4 border border-slate-200 animate-in zoom-in-95"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <div className="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center">
                   <AlertCircle size={24} />
                 </div>
@@ -13856,7 +13885,8 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
                   </button>
                 </div>
               </div>
-            </div>
+            </div>,
+            document.body
           )}
         </div>
       )}
@@ -13957,10 +13987,19 @@ function TransactionTypeBadge({ type }) {
   return <span className={`px-2.5 py-1 rounded text-xs font-semibold border ${styles[type] || 'bg-slate-100 text-slate-600'}`}>{labels[type] || type}</span>;
 }
 
-function Modal({ title, onClose, children, width = "max-w-md", zIndex = "z-50" }) {
-  return (
-    <div className={`fixed inset-0 ${zIndex} flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 sm:p-0 animate-in fade-in duration-200`}>
-      <div className={`bg-white rounded-xl shadow-2xl w-full ${width} overflow-hidden flex flex-col max-h-[92vh] border border-slate-200/90`}>
+function Modal({ title, onClose, children, width = "max-w-md", zIndex = "z-[99999]" }) {
+  if (typeof document === "undefined") return null;
+  return createPortal(
+    <div
+      className={`fixed inset-0 ${zIndex} flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 sm:p-0 animate-in fade-in duration-200`}
+      onClick={(e) => {
+        if (e.target === e.currentTarget && onClose) onClose();
+      }}
+    >
+      <div
+        className={`bg-white rounded-xl shadow-2xl w-full ${width} overflow-hidden flex flex-col max-h-[92vh] border border-slate-200/90`}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between items-center px-5 py-3 border-b border-slate-200/80 bg-slate-50/80 shrink-0">
           <h3 className="text-sm font-bold text-slate-900">{title}</h3>
           <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"><X size={18} /></button>
@@ -13969,7 +14008,8 @@ function Modal({ title, onClose, children, width = "max-w-md", zIndex = "z-50" }
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
