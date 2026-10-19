@@ -1045,6 +1045,19 @@ export default function AdLedgerApp() {
         return <TeamView theme={theme} teamMembers={teamMembers} onAdd={handleAddTeamMember} onUpdate={handleUpdateTeamMember} onRemove={handleRemoveTeamMember} clients={clients} workspaceSettings={workspaceSettings} />;
       case 'guide':
         return <UserGuideView theme={theme} onNavigate={(view) => setCurrentView(view)} />;
+      case 'subscription':
+      case 'billing':
+      case 'plans':
+        return (
+          <div className="w-full max-w-[1720px] mx-auto space-y-6 animate-in fade-in duration-300 pb-16">
+            <BillingPlansView
+              theme={theme}
+              subscription={subscription}
+              onUpdate={setSubscription}
+              businessName={workspaceSettings?.businessName}
+            />
+          </div>
+        );
       case 'settings':
         return <SettingsView
           theme={theme}
@@ -1058,6 +1071,7 @@ export default function AdLedgerApp() {
           onExport={exportBackup}
           onImport={importBackup}
           onReset={resetAllData}
+          onNavigate={(view) => setCurrentView(view)}
           clients={clients}
           cards={cards}
           transactions={transactions}
@@ -1265,6 +1279,7 @@ export default function AdLedgerApp() {
                 : 'bg-[#ebf0f7] border-white shadow-[5px_5px_14px_rgba(166,180,200,0.45),-5px_-5px_14px_#ffffff]'
             }`}>
               <p className={`px-3 pt-1 text-[9.5px] font-black uppercase tracking-wider ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>WORKSPACE</p>
+              <NavItem theme={theme} icon={<Crown />} label="Subscription & Plans" badge={subscription?.status === 'active' ? 'PRO' : 'UPGRADE'} isActive={currentView === 'subscription' || currentView === 'billing' || currentView === 'plans'} onClick={() => { setCurrentView('subscription'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<PlugZap />} label="Integrations" isActive={currentView === 'integrations'} onClick={() => { setCurrentView('integrations'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<UsersRound />} label="Team" isActive={currentView === 'team'} onClick={() => { setCurrentView('team'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<BookOpen />} label="User Guide & SOP" isActive={currentView === 'guide'} onClick={() => { setCurrentView('guide'); setIsMobileMenuOpen(false); }} />
@@ -1359,7 +1374,7 @@ export default function AdLedgerApp() {
 
               {/* SUBSCRIPTION & 3-DAY TRIAL STATUS PILL */}
               <button
-                onClick={() => setCurrentView('settings')}
+                onClick={() => setCurrentView('subscription')}
                 className={`hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-black transition-all border cursor-pointer ${
                   theme === 'dark'
                     ? (subscription?.status === 'active'
@@ -1532,6 +1547,27 @@ export default function AdLedgerApp() {
                     <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 mb-1">
                       Quick Controls
                     </div>
+
+                    <button
+                      onClick={() => {
+                        setCurrentView('subscription');
+                        setIsQuickSettingsOpen(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-amber-50/80 text-left transition-colors group"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                        <Crown size={14} className="stroke-[2.5]" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-xs text-slate-900 group-hover:text-amber-800 flex items-center gap-1.5">
+                          <span>Subscription & Plans</span>
+                          {subscription?.status === 'active' && (
+                            <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">PRO</span>
+                          )}
+                        </div>
+                        <div className="text-[10px] text-slate-400 font-medium">Upgrade, billing & invoice</div>
+                      </div>
+                    </button>
 
                     <button
                       onClick={() => {
@@ -12448,8 +12484,8 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
 }
 
 // --- PROFESSIONAL SETTINGS CENTER ---
-function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSave, onLogoUpload, onRemoveLogo, onExport, onImport, onReset, clients = [], cards = [], transactions = [], campaigns = [], metrics = {} }) {
-  const [activeTab, setActiveTab] = useState('billing');
+function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSave, onLogoUpload, onRemoveLogo, onExport, onImport, onReset, onNavigate, clients = [], cards = [], transactions = [], campaigns = [], metrics = {} }) {
+  const [activeTab, setActiveTab] = useState('branding');
   const [data, setData] = useState(() => ({ ...DEFAULT_SETTINGS, ...settings }));
   const [isDirty, setIsDirty] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null); // 'saving' | 'saved'
@@ -12936,7 +12972,6 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
   ];
 
   const navTabs = [
-    { id: 'billing', label: 'Subscription & Plans', icon: <Crown size={17} /> },
     { id: 'branding', label: 'General & Branding', icon: <SlidersHorizontal size={17} /> },
     { id: 'agency', label: 'Agency Profile', icon: <Building size={17} /> },
     { id: 'financial', label: 'Financial Safety & Rates', icon: <Coins size={17} /> },
@@ -13004,7 +13039,7 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
       )}
 
       {/* TAB NAVIGATION (EQUAL 6-COLUMN FULL WIDTH DISTRIBUTION) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-1 p-1 bg-slate-200/60 rounded-xl w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1 p-1 bg-slate-200/60 rounded-xl w-full">
         {navTabs.map((tab) => {
           const active = activeTab === tab.id;
           const hasError =
@@ -13033,14 +13068,28 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
         })}
       </div>
 
-      {/* ================= TAB 0: SUBSCRIPTION & BILLING PLANS ================= */}
-      {activeTab === 'billing' && (
-        <BillingPlansView
-          subscription={subscription}
-          onUpdate={onUpdateSubscription}
-          businessName={data.businessName || 'My Agency Workspace'}
-        />
-      )}
+      {/* DEDICATED NOTICE: SUBSCRIPTION ACCESSIBLE VIA SIDEBAR */}
+      <div className="p-3.5 rounded-xl bg-gradient-to-r from-sky-500/10 via-indigo-500/10 to-amber-500/10 border border-sky-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+            <Crown size={15} />
+          </div>
+          <div>
+            <span className="font-bold text-slate-800">Subscription & Billing Plans</span>
+            <span className="text-slate-500 ml-1.5 hidden sm:inline">is now accessible directly from the left sidebar navigation.</span>
+          </div>
+        </div>
+        {onNavigate && (
+          <button
+            type="button"
+            onClick={() => onNavigate('subscription')}
+            className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-[11px] shrink-0 transition-all cursor-pointer flex items-center gap-1 shadow-sm self-start sm:self-auto"
+          >
+            <span>Open Subscription & Plans</span>
+            <ArrowRight size={13} />
+          </button>
+        )}
+      </div>
 
       {/* ================= TAB 1: GENERAL & BRANDING ================= */}
       {activeTab === 'branding' && (
@@ -14035,7 +14084,7 @@ function Field({ label, children }) {
 }
 
 
-function NavItem({ icon, label, isActive, onClick, theme = 'light' }) {
+function NavItem({ icon, label, isActive, onClick, theme = 'light', badge = null }) {
   return (
     <button
       type="button"
@@ -14072,7 +14121,20 @@ function NavItem({ icon, label, isActive, onClick, theme = 'light' }) {
           {label}
         </span>
       </div>
-      {isActive && <ChevronRight size={15} className={`${theme === 'dark' ? 'text-sky-400' : 'text-blue-600'} font-bold shrink-0 mr-1`} />}
+      <div className="flex items-center gap-1.5 shrink-0">
+        {badge && (
+          <span className={`text-[9.5px] font-black px-1.5 py-0.5 rounded-md tracking-wider ${
+            badge === 'PRO' || badge === 'ACTIVE'
+              ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-xs'
+              : (theme === 'dark'
+                  ? 'bg-sky-500/15 text-sky-400 border border-sky-500/30'
+                  : 'bg-sky-100 text-sky-700 border border-sky-200')
+          }`}>
+            {badge}
+          </span>
+        )}
+        {isActive && <ChevronRight size={15} className={`${theme === 'dark' ? 'text-sky-400' : 'text-blue-600'} font-bold shrink-0 mr-1`} />}
+      </div>
     </button>
   );
 }
