@@ -1279,7 +1279,7 @@ export default function AdLedgerApp() {
                 : 'bg-[#ebf0f7] border-white shadow-[5px_5px_14px_rgba(166,180,200,0.45),-5px_-5px_14px_#ffffff]'
             }`}>
               <p className={`px-3 pt-1 text-[9.5px] font-black uppercase tracking-wider ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>WORKSPACE</p>
-              <NavItem theme={theme} icon={<Crown />} label="Subscription & Plans" badge={subscription?.status === 'active' ? 'PRO' : 'UPGRADE'} isActive={currentView === 'subscription' || currentView === 'billing' || currentView === 'plans'} onClick={() => { setCurrentView('subscription'); setIsMobileMenuOpen(false); }} />
+              <NavItem theme={theme} icon={<Crown />} label="Subscription" isActive={currentView === 'subscription' || currentView === 'billing' || currentView === 'plans'} onClick={() => { setCurrentView('subscription'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<PlugZap />} label="Integrations" isActive={currentView === 'integrations'} onClick={() => { setCurrentView('integrations'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<UsersRound />} label="Team" isActive={currentView === 'team'} onClick={() => { setCurrentView('team'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<BookOpen />} label="User Guide & SOP" isActive={currentView === 'guide'} onClick={() => { setCurrentView('guide'); setIsMobileMenuOpen(false); }} />
@@ -1560,10 +1560,7 @@ export default function AdLedgerApp() {
                       </div>
                       <div>
                         <div className="font-bold text-xs text-slate-900 group-hover:text-amber-800 flex items-center gap-1.5">
-                          <span>Subscription & Plans</span>
-                          {subscription?.status === 'active' && (
-                            <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-amber-200 text-amber-900">PRO</span>
-                          )}
+                          <span>Subscription</span>
                         </div>
                         <div className="text-[10px] text-slate-400 font-medium">Upgrade, billing & invoice</div>
                       </div>
@@ -14063,7 +14060,7 @@ function Field({ label, children }) {
 }
 
 
-function NavItem({ icon, label, isActive, onClick, theme = 'light', badge = null }) {
+function NavItem({ icon, label, isActive, onClick, theme = 'light' }) {
   return (
     <button
       type="button"
@@ -14100,20 +14097,7 @@ function NavItem({ icon, label, isActive, onClick, theme = 'light', badge = null
           {label}
         </span>
       </div>
-      <div className="flex items-center gap-1.5 shrink-0">
-        {badge && (
-          <span className={`text-[9.5px] font-black px-1.5 py-0.5 rounded-md tracking-wider ${
-            badge === 'PRO' || badge === 'ACTIVE'
-              ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 shadow-xs'
-              : (theme === 'dark'
-                  ? 'bg-sky-500/15 text-sky-400 border border-sky-500/30'
-                  : 'bg-sky-100 text-sky-700 border border-sky-200')
-          }`}>
-            {badge}
-          </span>
-        )}
-        {isActive && <ChevronRight size={15} className={`${theme === 'dark' ? 'text-sky-400' : 'text-blue-600'} font-bold shrink-0 mr-1`} />}
-      </div>
+      {isActive && <ChevronRight size={15} className={`${theme === 'dark' ? 'text-sky-400' : 'text-blue-600'} font-bold shrink-0 mr-1`} />}
     </button>
   );
 }
