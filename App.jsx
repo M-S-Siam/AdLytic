@@ -1279,7 +1279,7 @@ export default function AdLedgerApp() {
                 : 'bg-[#ebf0f7] border-white shadow-[5px_5px_14px_rgba(166,180,200,0.45),-5px_-5px_14px_#ffffff]'
             }`}>
               <p className={`px-3 pt-1 text-[9.5px] font-black uppercase tracking-wider ${theme === 'dark' ? 'text-slate-500' : 'text-slate-400'}`}>WORKSPACE</p>
-              <NavItem theme={theme} icon={<Crown />} label="Subscription" isActive={currentView === 'subscription' || currentView === 'billing' || currentView === 'plans'} onClick={() => { setCurrentView('subscription'); setIsMobileMenuOpen(false); }} />
+              <NavItem theme={theme} icon={<Crown />} label="Subscriptions" isActive={currentView === 'subscription' || currentView === 'billing' || currentView === 'plans'} onClick={() => { setCurrentView('subscription'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<PlugZap />} label="Integrations" isActive={currentView === 'integrations'} onClick={() => { setCurrentView('integrations'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<UsersRound />} label="Team" isActive={currentView === 'team'} onClick={() => { setCurrentView('team'); setIsMobileMenuOpen(false); }} />
               <NavItem theme={theme} icon={<BookOpen />} label="User Guide & SOP" isActive={currentView === 'guide'} onClick={() => { setCurrentView('guide'); setIsMobileMenuOpen(false); }} />
@@ -1560,7 +1560,7 @@ export default function AdLedgerApp() {
                       </div>
                       <div>
                         <div className="font-bold text-xs text-slate-900 group-hover:text-amber-800 flex items-center gap-1.5">
-                          <span>Subscription</span>
+                          <span>Subscriptions</span>
                         </div>
                         <div className="text-[10px] text-slate-400 font-medium">Upgrade, billing & invoice</div>
                       </div>
