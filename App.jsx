@@ -11227,6 +11227,92 @@ function BankOfficialLogo({ className = "w-8 h-8" }) {
 
 
 // --- SUBSCRIPTION & BILLING PLANS COMPONENT ---
+const BD_BANK_CATEGORIES = [
+  {
+    category: "Top Scheduled Banks",
+    banks: [
+      "BRAC Bank PLC",
+      "Dutch-Bangla Bank PLC",
+      "The City Bank PLC",
+      "Eastern Bank PLC (EBL)",
+      "Islami Bank Bangladesh PLC",
+      "Standard Chartered Bank",
+      "Pubali Bank PLC",
+      "Mutual Trust Bank PLC (MTB)",
+      "United Commercial Bank PLC (UCB)",
+      "Prime Bank PLC"
+    ]
+  },
+  {
+    category: "Private Commercial Banks (Conventional)",
+    banks: [
+      "AB Bank PLC",
+      "Bank Asia PLC",
+      "Bengal Commercial Bank PLC",
+      "Citizens Bank PLC",
+      "Community Bank Bangladesh PLC",
+      "Dhaka Bank PLC",
+      "IFIC Bank PLC",
+      "Jamuna Bank PLC",
+      "Meghna Bank PLC",
+      "Mercantile Bank PLC",
+      "Midland Bank PLC",
+      "Modhumoti Bank PLC",
+      "National Bank Limited",
+      "NCC Bank PLC",
+      "NRB Bank PLC",
+      "ONE Bank PLC",
+      "Padma Bank PLC",
+      "Shimanto Bank PLC",
+      "South Bangla Agriculture & Commerce Bank (SBAC)",
+      "Southeast Bank PLC",
+      "The Premier Bank PLC",
+      "Trust Bank Limited"
+    ]
+  },
+  {
+    category: "Islami Shariah-Based Banks",
+    banks: [
+      "Al-Arafah Islami Bank PLC",
+      "EXIM Bank Bangladesh PLC",
+      "First Security Islami Bank PLC",
+      "Global Islami Bank PLC",
+      "ICB Islamic Bank Limited",
+      "Shahjalal Islami Bank PLC",
+      "Social Islami Bank PLC",
+      "Standard Bank PLC",
+      "Union Bank PLC"
+    ]
+  },
+  {
+    category: "State-Owned Commercial & Specialized Banks",
+    banks: [
+      "Sonali Bank PLC",
+      "Janata Bank PLC",
+      "Agrani Bank PLC",
+      "Rupali Bank PLC",
+      "BASIC Bank Limited",
+      "Bangladesh Development Bank Limited (BDBL)",
+      "Bangladesh Krishi Bank",
+      "Rajshahi Krishi Unnayan Bank",
+      "Probashi Kallyan Bank"
+    ]
+  },
+  {
+    category: "Foreign Commercial Banks in Bangladesh",
+    banks: [
+      "Citibank N.A. Bangladesh",
+      "Commercial Bank of Ceylon",
+      "Habib Bank Limited",
+      "HSBC Bangladesh",
+      "National Bank of Pakistan",
+      "State Bank of India (SBI)",
+      "Woori Bank Bangladesh",
+      "Bank Alfalah Limited"
+    ]
+  }
+];
+
 function BillingPlansView({ subscription, onUpdate, businessName }) {
   const [checkoutPlan, setCheckoutPlan] = useState(null);
   const [checkoutStep, setCheckoutStep] = useState('payment'); // 'payment' (Step 2) | 'done' (Step 3)
@@ -11236,6 +11322,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
 
   // MFS fields
   const [senderPhone, setSenderPhone] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   const [trxId, setTrxId] = useState('');
 
   // Card fields
@@ -11261,6 +11348,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
     setCopiedNumber(false);
     setCopiedBank(false);
     setSenderPhone('');
+    setPhoneError('');
     setTrxId('');
     setCardHolder('');
     setCardNumber('');
@@ -11290,9 +11378,18 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
 
     // Validation per method
     if (paymentMethod === 'bkash' || paymentMethod === 'nagad') {
+      if (phoneError) {
+        setErrorMessage(phoneError);
+        return;
+      }
+      if (senderPhone && /[^\d+]/.test(senderPhone.trim())) {
+        setPhoneError('Only numbers are allowed in mobile number.');
+        setErrorMessage('Only numbers are allowed in mobile number.');
+        return;
+      }
       const cleanPhone = senderPhone.replace(/\D/g, '');
       if (senderPhone && cleanPhone.length < 11) {
-        setErrorMessage('Please enter a valid 11-digit mobile number (01XXXXXXXXX).');
+        setErrorMessage('Please enter a valid 11-digit mobile number.');
         return;
       }
     } else if (paymentMethod === 'card') {
@@ -11326,7 +11423,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
 
       const accountDisplay =
         paymentMethod === 'bkash' || paymentMethod === 'nagad'
-          ? (senderPhone.trim() || '01712-345678')
+          ? (senderPhone.trim() || '+8801874887309')
           : paymentMethod === 'card'
             ? ('Card ending in ' + (cardNumber.replace(/\s/g, '').slice(-4) || '4242'))
             : (bankSenderName.trim() || 'BRAC Bank NPSB');
@@ -11937,13 +12034,13 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                             {paymentMethod === 'bkash' ? 'bKash Merchant Number' : 'Nagad Merchant Number'}
                           </div>
                           <div className="text-xl sm:text-2xl font-black font-mono text-white tracking-wider mt-0.5">
-                            01712 345678
+                            +8801874887309
                           </div>
                         </div>
 
                         <button
                           type="button"
-                          onClick={() => handleCopy('01712345678', 'number')}
+                          onClick={() => handleCopy('+8801874887309', 'number')}
                           className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm ${
                             copiedNumber
                               ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
@@ -11988,15 +12085,33 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                         <div>
                           <label className="text-[11px] font-bold text-slate-300 block mb-1">
-                            Your {paymentMethod === 'bkash' ? 'bKash' : 'Nagad'} Number (Optional)
+                            Your {paymentMethod === 'bkash' ? 'bKash' : 'Nagad'} Number
                           </label>
                           <input
                             type="tel"
                             value={senderPhone}
-                            onChange={(e) => setSenderPhone(e.target.value)}
-                            placeholder="01XXXXXXXXX"
-                            className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-mono font-bold text-white outline-none focus:border-blue-500"
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              setSenderPhone(val);
+                              if (val && /[^\d+]/.test(val)) {
+                                setPhoneError('Only numbers are allowed in mobile number.');
+                              } else {
+                                setPhoneError('');
+                              }
+                            }}
+                            placeholder=""
+                            className={`w-full px-3.5 py-2.5 rounded-xl border bg-[#090d16] text-xs font-mono font-bold text-white outline-none transition-colors ${
+                              phoneError
+                                ? 'border-rose-500 focus:border-rose-500 text-rose-200'
+                                : 'border-[#1e293b] focus:border-blue-500'
+                            }`}
                           />
+                          {phoneError && (
+                            <div className="text-[11px] text-rose-400 font-semibold mt-1 flex items-center gap-1.5 animate-in fade-in">
+                              <AlertCircle size={13} className="shrink-0 text-rose-400" />
+                              <span>{phoneError}</span>
+                            </div>
+                          )}
                         </div>
 
                         <div>
@@ -12007,7 +12122,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                             type="text"
                             value={trxId}
                             onChange={(e) => setTrxId(e.target.value.toUpperCase())}
-                            placeholder="e.g. BL93K28X"
+                            placeholder=""
                             className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-mono font-bold text-white outline-none focus:border-blue-500 uppercase"
                           />
                         </div>
@@ -12037,7 +12152,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                             type="text"
                             value={cardHolder}
                             onChange={(e) => setCardHolder(e.target.value)}
-                            placeholder="Name as on Card"
+                            placeholder=""
                             className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-bold text-white outline-none focus:border-blue-500"
                           />
                         </div>
@@ -12052,7 +12167,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                               const v = e.target.value.replace(/\D/g, '').slice(0, 16);
                               setCardNumber(v.match(/.{1,4}/g)?.join(' ') || v);
                             }}
-                            placeholder="4242 •••• •••• 4242"
+                            placeholder="xxxx-xxxx-xxxx-xxxx"
                             className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-mono font-bold text-white outline-none focus:border-blue-500 tracking-wider"
                           />
                         </div>
@@ -12121,26 +12236,34 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Account Name:</span>
-                          <span className="font-bold text-white">Quantrex Technologies Inc.</span>
+                          <span className="font-bold text-white">Quantrex Technologies Ltd.</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Account Number:</span>
-                          <span className="font-bold text-white">1501 2049 8812 0001</span>
+                          <span className="font-bold text-white">1501 2048 8730 9001</span>
                         </div>
                         <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
                           <span className="text-slate-400 font-sans">Routing Number:</span>
-                          <span className="font-bold text-slate-300">060261356</span>
+                          <span className="font-bold text-teal-300">060261356</span>
+                        </div>
+                        <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
+                          <span className="text-slate-400 font-sans">SWIFT Code:</span>
+                          <span className="font-bold text-teal-300">BRAKBDDH</span>
+                        </div>
+                        <div className="flex justify-between border-b border-[#1e293b] pb-1.5">
+                          <span className="text-slate-400 font-sans">Branch:</span>
+                          <span className="font-bold text-slate-300">Gulshan-1 Branch, Dhaka</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-slate-400 font-sans">Branch:</span>
-                          <span className="font-bold text-slate-300">Gulshan Branch, Dhaka</span>
+                          <span className="text-slate-400 font-sans">Transfer Channel:</span>
+                          <span className="font-bold text-emerald-400">NPSB / BEFTN / RTGS</span>
                         </div>
                       </div>
 
                       <div className="flex justify-end">
                         <button
                           type="button"
-                          onClick={() => handleCopy('Bank: BRAC Bank PLC\nAccount: Quantrex Technologies Inc.\nA/C No: 1501 2049 8812 0001\nRouting: 060261356\nBranch: Gulshan Branch, Dhaka', 'bank')}
+                          onClick={() => handleCopy('Bank: BRAC Bank PLC\nAccount Name: Quantrex Technologies Ltd.\nA/C No: 1501204887309001\nRouting: 060261356\nSWIFT: BRAKBDDH\nBranch: Gulshan-1 Branch, Dhaka', 'bank')}
                           className="px-3.5 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer"
                         >
                           {copiedBank ? <Check size={13} className="text-emerald-400 stroke-[3]" /> : <Copy size={13} />}
@@ -12150,14 +12273,23 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                         <div>
-                          <label className="text-[11px] font-bold text-slate-300 block mb-1">Your Bank / Branch</label>
-                          <input
-                            type="text"
+                          <label className="text-[11px] font-bold text-slate-300 block mb-1">Select Your Bank</label>
+                          <select
                             value={bankSenderName}
                             onChange={(e) => setBankSenderName(e.target.value)}
-                            placeholder="e.g. City Bank, EBL"
-                            className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-bold text-white outline-none focus:border-blue-500"
-                          />
+                            className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-bold text-white outline-none focus:border-blue-500 cursor-pointer"
+                          >
+                            <option value="">-- Select Your Bank --</option>
+                            {BD_BANK_CATEGORIES.map((cat, idx) => (
+                              <optgroup key={idx} label={cat.category} className="bg-[#0b101b] text-blue-400 font-bold">
+                                {cat.banks.map((bank) => (
+                                  <option key={bank} value={bank} className="bg-[#090d16] text-white py-1">
+                                    {bank}
+                                  </option>
+                                ))}
+                              </optgroup>
+                            ))}
+                          </select>
                         </div>
 
                         <div>
@@ -12166,7 +12298,7 @@ function BillingPlansView({ subscription, onUpdate, businessName }) {
                             type="text"
                             value={bankRef}
                             onChange={(e) => setBankRef(e.target.value)}
-                            placeholder="e.g. REF-982341"
+                            placeholder=""
                             className="w-full px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-mono font-bold text-white outline-none focus:border-blue-500"
                           />
                         </div>
