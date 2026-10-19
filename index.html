@@ -3,14 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
     <title>Quantrex — Agency Financial Operating System</title>
+    <style>
+      /* Zero-flash dark base */
+      html.dark, html.dark body {
+        background-color: #0a0d14 !important;
+        color: #f1f5f9;
+      }
+    </style>
     <script>
       (function() {
         try {
+          var explicit = localStorage.getItem('quantrex_theme_explicitly_set');
           var t = localStorage.getItem('quantrex_neumorphic_theme');
-          if (t === '"dark"' || t === 'dark') {
+          var isDark = true;
+          if (explicit === 'true' && (t === '"light"' || t === 'light')) {
+            isDark = false;
+          }
+          if (isDark) {
             document.documentElement.classList.add('dark');
+            if (document.body) document.body.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            if (document.body) document.body.classList.remove('dark');
           }
         } catch (e) {}
       })();

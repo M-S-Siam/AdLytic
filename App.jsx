@@ -179,8 +179,48 @@ function getInitialLocalValue(key, initialValue) {
   }
 }
 
+// --- PURE CLIENT-SIDE PERSISTENT HOOK (FOR UI THEME PREFERENCES — IMMUNE TO CLOUD OVERWRITES) ---
+function useThemeStorage(key, defaultTheme = 'dark') {
+  const [theme, setThemeState] = useState(() => {
+    if (typeof window === 'undefined') return defaultTheme;
+    try {
+      const explicit = window.localStorage.getItem('quantrex_theme_explicitly_set');
+      const item = window.localStorage.getItem(key);
+      if (explicit === 'true' && item !== null) {
+        const parsed = JSON.parse(item);
+        return parsed === 'light' ? 'light' : 'dark';
+      }
+      if (item !== null) {
+        const parsed = JSON.parse(item);
+        if (parsed === 'dark') return 'dark';
+      }
+      return defaultTheme;
+    } catch (e) {
+      return defaultTheme;
+    }
+  });
+
+  const setTheme = (nextVal) => {
+    setThemeState(prev => {
+      const next = typeof nextVal === 'function' ? nextVal(prev) : nextVal;
+      if (typeof window !== 'undefined') {
+        try {
+          window.localStorage.setItem('quantrex_theme_explicitly_set', 'true');
+          window.localStorage.setItem(key, JSON.stringify(next));
+          window.localStorage.setItem(`adlytic_${key}`, JSON.stringify(next));
+        } catch (e) {}
+      }
+      return next;
+    });
+  };
+
+  return [theme, setTheme];
+}
+
 // --- BULLETPROOF LOCAL CACHE & CLOUD SYNC HOOK ---
 function useLocalStorage(key, initialValue) {
+  // Safety: theme must never sync with cloud
+  if (key === 'quantrex_neumorphic_theme') return useThemeStorage(key, 'dark');
   // Read local cache immediately so the UI renders instantaneously on frame 1
   const [storedValue, setStoredValue] = useState(() => getInitialLocalValue(key, initialValue));
 
@@ -501,7 +541,7 @@ export default function AdLedgerApp() {
   const [workspaceLogoScale, setWorkspaceLogoScale] = useLocalStorage('quantrex_logo_scale', 1.15);
   const [workspaceLogoOffsetX, setWorkspaceLogoOffsetX] = useLocalStorage('quantrex_logo_offset_x', 0);
   const [workspaceLogoOffsetY, setWorkspaceLogoOffsetY] = useLocalStorage('quantrex_logo_offset_y', 0);
-  const [theme, setTheme] = useLocalStorage('quantrex_neumorphic_theme', 'light'); // 'light' | 'dark'
+  const [theme, setTheme] = useThemeStorage('quantrex_neumorphic_theme', 'dark'); // 'dark' | 'light'
   const [subscription, setSubscription] = useLocalStorage('quantrex_subscription', {
     plan: 'starter_monthly',
     planName: 'Starter Agency Plan',
