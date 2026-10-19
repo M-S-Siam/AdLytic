@@ -12972,11 +12972,11 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
   ];
 
   const navTabs = [
-    { id: 'branding', label: 'General & Branding', icon: <SlidersHorizontal size={17} /> },
-    { id: 'agency', label: 'Agency Profile', icon: <Building size={17} /> },
-    { id: 'financial', label: 'Financial Safety & Rates', icon: <Coins size={17} /> },
-    { id: 'security', label: 'Account & Security', icon: <Lock size={17} /> },
-    { id: 'backups', label: 'Data & Cloud Sync', icon: <Database size={17} /> },
+    { id: 'branding', label: 'General & Branding', icon: <SlidersHorizontal size={14} /> },
+    { id: 'agency', label: 'Agency Profile', icon: <Building size={14} /> },
+    { id: 'financial', label: 'Financial Safety & Rates', icon: <Coins size={14} /> },
+    { id: 'security', label: 'Account & Security', icon: <Lock size={14} /> },
+    { id: 'backups', label: 'Data & Cloud Sync', icon: <Database size={14} /> },
   ];
 
   const selectedCurrencySymbol = currencyList.find(c => c[0] === data.currency)?.[2] || '৳';
@@ -13009,14 +13009,14 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
             type="button"
             onClick={handleSave}
             disabled={saveStatus === 'saving'}
-            className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold text-white shadow-sm transition-all ${
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-white text-xs font-bold transition-all shadow-[3px_3px_10px_rgba(37,99,235,0.35),-2px_-2px_6px_#ffffff] active:scale-[0.98] cursor-pointer select-none ${
               isDirty
-                ? 'bg-sky-600 hover:bg-sky-700 ring-2 ring-sky-400/40'
-                : 'bg-slate-900 hover:bg-slate-800'
+                ? 'bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700 ring-2 ring-sky-400/40'
+                : 'bg-gradient-to-r from-blue-600 to-sky-600 hover:from-blue-700 hover:to-sky-700'
             } disabled:opacity-50`}
           >
             <Save size={14} />
-            {saveStatus === 'saving' ? 'Saving...' : isDirty ? 'Save Changes *' : 'Save Settings'}
+            <span>{saveStatus === 'saving' ? 'Saving...' : isDirty ? 'Save Changes *' : 'Save Settings'}</span>
           </button>
         </div>
       </div>
@@ -13038,8 +13038,8 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
         </div>
       )}
 
-      {/* TAB NAVIGATION (EQUAL 6-COLUMN FULL WIDTH DISTRIBUTION) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-1 p-1 bg-slate-200/60 rounded-xl w-full">
+      {/* SETTINGS TABS NAVIGATION (100% MATCH TO TEAM & INTEGRATION PILL DESIGN) */}
+      <div className="flex items-center gap-1 overflow-x-auto no-scrollbar [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden p-1 bg-slate-200/60 rounded-xl w-full sm:w-auto shrink-0">
         {navTabs.map((tab) => {
           const active = activeTab === tab.id;
           const hasError =
@@ -13052,14 +13052,14 @@ function SettingsView({ settings, logo, subscription, onUpdateSubscription, onSa
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id)}
-              className={`w-full flex items-center justify-center gap-2 py-2.5 px-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap relative cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap flex items-center gap-2 cursor-pointer select-none active:scale-[0.98] ${
                 active
-                  ? 'bg-white text-slate-900 shadow-xs'
+                  ? 'bg-white text-slate-900 shadow-xs font-black'
                   : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               <span className={active ? 'text-sky-600' : 'text-slate-400'}>{tab.icon}</span>
-              <span className="truncate">{tab.label}</span>
+              <span>{tab.label}</span>
               {hasError && (
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 ml-0.5 animate-pulse shrink-0" />
               )}
