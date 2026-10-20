@@ -544,7 +544,7 @@ export default function AdLedgerApp() {
   const [theme, setTheme] = useThemeStorage('quantrex_neumorphic_theme', 'dark'); // 'dark' | 'light'
   const [subscription, setSubscription] = useLocalStorage('quantrex_subscription', {
     plan: 'starter_monthly',
-    planName: 'Starter Agency Plan',
+    planName: 'Starter Plan',
     status: 'trial', // 'trial' | 'active'
     price: 500,
     regularPrice: 1000,
@@ -1390,12 +1390,12 @@ export default function AdLedgerApp() {
                 {subscription?.status === 'active' ? (
                   <>
                     <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                    <span>{subscription?.plan === 'lifetime_founder' ? 'Lifetime Active · ৳8,000' : subscription?.plan === 'pro_annual' ? 'Pro Active · ৳4,500/yr' : 'Starter Active · ৳500/mo'}</span>
+                    <span>{subscription?.plan === 'lifetime_founder' ? 'Lifetime Plan' : subscription?.plan === 'pro_annual' ? 'Annual Plan' : 'Starter Plan'}</span>
                   </>
                 ) : (
                   <>
                     <Sparkles size={13} className={`${theme === 'dark' ? 'text-amber-400' : 'text-amber-600'} animate-pulse shrink-0`} />
-                    <span>3-Day Free Trial (৳500/mo)</span>
+                    <span>3-Day Free Trial</span>
                     <span className={`px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider ${
                       theme === 'dark' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-amber-500 text-white shadow-xs'
                     }`}>
@@ -11588,7 +11588,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
   const plans = [
     {
       id: 'starter_monthly',
-      name: 'Starter Agency (Launch Special)',
+      name: 'Starter Plan',
       price: 500,
       regularPrice: 1000,
       period: '/ month',
@@ -11607,14 +11607,14 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
     },
     {
       id: 'pro_annual',
-      name: 'Annual Pro Pass',
+      name: 'Annual Plan',
       price: 4500,
       regularPrice: 6000,
       period: '/ year (৳375/mo)',
       badge: '2 Months Free',
       popular: false,
       trialNote: '✨ Best Value for Established Agencies',
-      btnText: 'Get Annual Pro Pass (৳4,500)',
+      btnText: 'Get Annual Plan (৳4,500)',
       features: [
         'Everything in Starter Plan',
         'Unlimited Team Members & Role Access',
@@ -11625,14 +11625,14 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
     },
     {
       id: 'lifetime_founder',
-      name: 'Lifetime Founder Access',
+      name: 'Lifetime Plan',
       price: 6999,
       regularPrice: 15000,
       period: 'one-time payment',
       badge: 'Lifetime Deal',
       popular: false,
       trialNote: '💎 Pay Once, Use Forever',
-      btnText: 'Get Lifetime Access (৳6,999)',
+      btnText: 'Get Lifetime Plan (৳6,999)',
       features: [
         'Lifetime Access to All Current Features',
         'All Future V2 & Pro Updates Free Forever',
