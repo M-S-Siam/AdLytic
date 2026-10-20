@@ -11804,9 +11804,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       {checkoutPlan && typeof document !== "undefined" && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setCheckoutPlan(null);
-          }}
         >
           <div
             className="relative w-full max-w-2xl bg-[#090d16] text-slate-100 rounded-3xl border border-[#1e293b] shadow-2xl p-5 sm:p-7 space-y-6 my-auto font-sans"
@@ -12379,16 +12376,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                     )}
                   </button>
 
-                  {/* GO BACK LINK */}
-                  <div className="text-center pt-1">
-                    <button
-                      type="button"
-                      onClick={() => setCheckoutPlan(null)}
-                      className="text-xs font-bold text-slate-400 hover:text-white transition-colors cursor-pointer"
-                    >
-                      ← Go Back
-                    </button>
-                  </div>
+
                 </div>
               </div>
             )}
