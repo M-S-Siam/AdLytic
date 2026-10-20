@@ -11914,9 +11914,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                   >
                     <div className="flex items-center justify-between">
                       <BkashOfficialLogo className="w-8 h-8 shrink-0" />
-                      {paymentMethod === 'bkash' && (
-                        <span className="w-2 h-2 rounded-full bg-[#e2136e] animate-pulse" />
-                      )}
                     </div>
                     <div>
                       <div className="font-extrabold text-xs text-white">bKash</div>
@@ -11936,9 +11933,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                   >
                     <div className="flex items-center justify-between">
                       <NagadOfficialLogo className="w-8 h-8 shrink-0" />
-                      {paymentMethod === 'nagad' && (
-                        <span className="w-2 h-2 rounded-full bg-[#f7941d] animate-pulse" />
-                      )}
                     </div>
                     <div>
                       <div className="font-extrabold text-xs text-white">Nagad</div>
@@ -11958,9 +11952,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                   >
                     <div className="flex items-center justify-between">
                       <CardOfficialLogo className="w-8 h-8 shrink-0" />
-                      {paymentMethod === 'card' && (
-                        <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-                      )}
                     </div>
                     <div>
                       <div className="font-extrabold text-xs text-white">Card Payment</div>
@@ -11980,9 +11971,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                   >
                     <div className="flex items-center justify-between">
                       <BankOfficialLogo className="w-8 h-8 shrink-0" />
-                      {paymentMethod === 'bank' && (
-                        <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-                      )}
                     </div>
                     <div>
                       <div className="font-extrabold text-xs text-white">Bank Transfer</div>
