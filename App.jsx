@@ -12031,88 +12031,170 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                 </div>
 
                 
-                {/* PROMO / COUPON CODE BOX */}
-                <div className="p-4 rounded-2xl bg-[#0c1220] border border-[#1e293b] space-y-3 shadow-md">
-                  <div className="flex items-center justify-between">
+                {/* ORDER & PRICE BREAKDOWN SUMMARY CARD */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-[#0c1220] border border-[#1e293b] space-y-4 shadow-lg">
+                  {/* Top Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-[#1e293b]">
                     <div className="flex items-center gap-2">
-                      <Tag size={15} className="text-amber-400" />
-                      <span className="text-xs font-bold text-white">Promo or Referral Code</span>
-                    </div>
-                    {appliedPromo && (
-                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">
-                        {appliedPromo.discountPercent}% OFF Active
+                      <Receipt size={16} className="text-blue-400 shrink-0" />
+                      <span className="text-xs font-black uppercase tracking-wider text-white">
+                        Order &amp; Price Breakdown
                       </span>
-                    )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-white bg-blue-500/15 border border-blue-500/30 px-2.5 py-0.5 rounded-lg">
+                        {checkoutPlan.name}
+                      </span>
+                      <span className="text-[11px] text-slate-400 font-medium">
+                        ({checkoutPlan.period})
+                      </span>
+                    </div>
                   </div>
 
-                  {!appliedPromo ? (
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        value={promoInput}
-                        onChange={(e) => {
-                          setPromoInput(e.target.value.toUpperCase());
-                          setPromoError('');
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                            handleApplyPromo();
-                          }
-                        }}
-                        placeholder="Enter Promo Code (e.g. LAUNCH500)"
-                        className="flex-1 px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-mono font-bold text-white placeholder:text-slate-500 outline-none focus:border-amber-500 uppercase tracking-wider"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => handleApplyPromo()}
-                        className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 font-black text-xs transition-all shadow-sm cursor-pointer select-none"
-                      >
-                        Apply Code
-                      </button>
+                  {/* 3-Row Explicit Price Breakdown */}
+                  <div className="p-3.5 rounded-xl bg-[#080d1a] border border-[#1e293b]/80 space-y-2.5">
+                    {/* Row 1: Original Price */}
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-400 font-medium">
+                        Plan Base Price (মূল সাবস্ক্রিপশন ফি):
+                      </span>
+                      <span className="font-mono font-bold text-white text-sm">
+                        ৳ {currentPlanPrice.toLocaleString()}
+                      </span>
                     </div>
-                  ) : (
-                    <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0">
-                          <Check size={13} className="stroke-[3]" />
+
+                    {/* Row 2: Promo Discount */}
+                    <div className="flex justify-between items-center text-xs">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-slate-400 font-medium">Promo Discount (প্রমো ডিসকাউন্ট ছাড়):</span>
+                        {appliedPromo ? (
+                          <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                            {appliedPromo.code} (-{appliedPromo.discountPercent}%)
+                          </span>
+                        ) : (
+                          <span className="text-[11px] text-slate-500 italic">(No promo applied)</span>
+                        )}
+                      </div>
+                      <span className={`font-mono font-bold text-sm ${appliedPromo ? "text-emerald-400" : "text-slate-500"}`}>
+                        {appliedPromo ? `- ৳ ${promoDiscountAmount.toLocaleString()}` : "৳ 0"}
+                      </span>
+                    </div>
+
+                    {/* Row 3: Final Payable Total */}
+                    <div className="flex justify-between items-center pt-2.5 mt-1 border-t border-[#1e293b]">
+                      <div>
+                        <div className="text-xs font-black text-white flex items-center gap-1.5">
+                          <span>Final Amount to Pay (সর্বমোট প্রদেয় টাকা):</span>
+                          <span className="px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-300 text-[10px] font-bold border border-blue-500/30">
+                            Payable Now
+                          </span>
                         </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono font-black text-xs text-emerald-300 tracking-wider">
-                              {appliedPromo.code}
+                        <div className="text-[10px] text-slate-400 mt-0.5">
+                          {appliedPromo ? (
+                            <span className="text-emerald-400 font-bold">
+                              ✨ You are saving ৳{promoDiscountAmount.toLocaleString()} with promo!
                             </span>
-                            <span className="text-[11px] font-bold text-emerald-400">
-                              ({appliedPromo.label})
-                            </span>
-                          </div>
-                          <div className="text-[10px] text-emerald-300/80 font-medium">
-                            You are saving ৳{promoDiscountAmount.toLocaleString()} on this order!
-                          </div>
+                          ) : (
+                            <span>0% Gateway Processing Fee • Instant Activation</span>
+                          )}
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        onClick={handleRemovePromo}
-                        className="text-[11px] font-bold text-rose-400 hover:text-rose-300 transition-colors cursor-pointer px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 rounded-lg border border-rose-500/30"
-                      >
-                        Remove
-                      </button>
+                      <div className="text-right">
+                        <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-400 tracking-tight">
+                          ৳ {payablePrice.toLocaleString()}
+                        </div>
+                        {appliedPromo && (
+                          <div className="text-[11px] font-mono line-through text-slate-500 font-bold">
+                            Regular: ৳ {currentPlanPrice.toLocaleString()}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
+                  </div>
 
-                  {promoError && (
-                    <p className="text-[11px] font-semibold text-rose-400 flex items-center gap-1.5 animate-in fade-in">
-                      <AlertCircle size={12} className="shrink-0" />
-                      <span>{promoError}</span>
-                    </p>
-                  )}
-                  {promoSuccess && !promoError && (
-                    <p className="text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5 animate-in fade-in">
-                      <Check size={12} className="stroke-[3] shrink-0" />
-                      <span>{promoSuccess}</span>
-                    </p>
-                  )}
+                  {/* Promo Code Input / Applied Badge Box */}
+                  <div className="pt-1 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Tag size={14} className="text-amber-400" />
+                        <span className="text-xs font-bold text-white">Have a Promo Code?</span>
+                      </div>
+                      {appliedPromo && (
+                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">
+                          {appliedPromo.discountPercent}% OFF Active
+                        </span>
+                      )}
+                    </div>
+
+                    {!appliedPromo ? (
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={promoInput}
+                          onChange={(e) => {
+                            setPromoInput(e.target.value.toUpperCase());
+                            setPromoError("");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                              e.preventDefault();
+                              handleApplyPromo();
+                            }
+                          }}
+                          placeholder="Enter Promo Code (e.g. LAUNCH500, QUANTREX20)"
+                          className="flex-1 px-3.5 py-2.5 rounded-xl border border-[#1e293b] bg-[#090d16] text-xs font-mono font-bold text-white placeholder:text-slate-500 outline-none focus:border-amber-500 uppercase tracking-wider"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleApplyPromo()}
+                          className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-95 text-slate-950 font-black text-xs transition-all shadow-sm cursor-pointer select-none shrink-0"
+                        >
+                          Apply Code
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-950/30 border border-emerald-500/40">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0">
+                            <Check size={13} className="stroke-[3]" />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono font-black text-xs text-emerald-300 tracking-wider">
+                                {appliedPromo.code}
+                              </span>
+                              <span className="text-[11px] font-bold text-emerald-400">
+                                ({appliedPromo.label})
+                              </span>
+                            </div>
+                            <div className="text-[11px] text-emerald-300/80 font-medium">
+                              Discount applied: ৳{promoDiscountAmount.toLocaleString()} deducted from total!
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleRemovePromo}
+                          className="text-[11px] font-bold text-rose-400 hover:text-rose-300 transition-colors cursor-pointer px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 rounded-lg border border-rose-500/30"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+
+                    {promoError && (
+                      <p className="text-[11px] font-semibold text-rose-400 flex items-center gap-1.5 animate-in fade-in">
+                        <AlertCircle size={12} className="shrink-0" />
+                        <span>{promoError}</span>
+                      </p>
+                    )}
+                    {promoSuccess && !promoError && (
+                      <p className="text-[11px] font-semibold text-emerald-400 flex items-center gap-1.5 animate-in fade-in">
+                        <Check size={12} className="stroke-[3] shrink-0" />
+                        <span>{promoSuccess}</span>
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {/* METHOD DETAILS CONTAINER */}
@@ -12527,7 +12609,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                       </>
                     ) : (
                       <>
-                        <span>I Have Completed the Payment</span>
+                        <span>I Have Completed Payment of ৳{payablePrice.toLocaleString()}</span>
                         <ArrowRight size={18} />
                       </>
                     )}
