@@ -1388,10 +1388,7 @@ export default function AdLedgerApp() {
                 title="Click to view Subscription & Billing details"
               >
                 {subscription?.status === 'active' ? (
-                  <>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                    <span>{subscription?.plan === 'lifetime_founder' ? 'Lifetime Plan' : subscription?.plan === 'pro_annual' ? 'Annual Plan' : 'Starter Plan'}</span>
-                  </>
+                  <span>{subscription?.plan === 'lifetime_founder' ? 'Lifetime Plan' : subscription?.plan === 'pro_annual' ? 'Annual Plan' : 'Starter Plan'}</span>
                 ) : (
                   <>
                     <Sparkles size={13} className={`${theme === 'dark' ? 'text-amber-400' : 'text-amber-600'} animate-pulse shrink-0`} />
@@ -11592,7 +11589,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       price: 500,
       regularPrice: 1000,
       period: '/ month',
-      badge: '50% OFF · Most Popular',
+      badge: '50% OFF - Most Popular',
       popular: true,
       trialNote: '✨ 3-Day Free Trial Included',
       btnText: 'Subscribe for ৳500 / mo',
@@ -11676,8 +11673,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
             <div className="text-right hidden sm:block">
               <div className="text-[11px] font-semibold text-slate-500">Current Status</div>
               <div className="text-sm font-extrabold text-emerald-700 flex items-center justify-end gap-1.5 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                {isProActive ? (subscription?.plan === 'lifetime_founder' ? 'Lifetime Active' : subscription?.plan === 'pro_annual' ? 'Pro Active' : 'Starter Active') : '3-Day Trial Active'}
+                {isProActive ? (subscription?.plan === 'lifetime_founder' ? 'Lifetime Plan' : subscription?.plan === 'pro_annual' ? 'Annual Plan' : 'Starter Plan') : '3-Day Trial Active'}
               </div>
             </div>
           </div>
