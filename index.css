@@ -811,40 +811,59 @@ body.dark *,
 }
 
 /* =========================================================================
-   PRICING PLAN CARDS (FIXED, STABLE, CALM HOVER)
+   PRICING PLAN CARDS HOVER GLOW (NEON GLOW ON CURSOR HOVER)
    ========================================================================= */
 .adl-plan-card {
-  transition: border-color 0.2s ease !important;
-  transform: none !important;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease !important;
   cursor: pointer !important;
 }
 
+/* Plan 1: Starter Agency (Sky Blue Neon Glow) */
 .adl-shell.dark .adl-plan-starter:hover,
 html.dark .adl-plan-starter:hover,
-body.dark .adl-plan-starter:hover,
-.adl-plan-starter:hover {
-  transform: none !important;
-  border-color: rgba(56, 189, 248, 0.5) !important;
+body.dark .adl-plan-starter:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(56, 189, 248, 0.8) !important;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.4), 0 0 50px rgba(56, 189, 248, 0.15), 0 12px 30px -5px rgba(0, 0, 0, 0.85) !important;
 }
 
+/* Plan 2: Annual Pro Pass (Purple/Violet Neon Glow) */
 .adl-shell.dark .adl-plan-pro:hover,
 html.dark .adl-plan-pro:hover,
-body.dark .adl-plan-pro:hover,
-.adl-plan-pro:hover {
-  transform: none !important;
-  border-color: rgba(168, 85, 247, 0.5) !important;
+body.dark .adl-plan-pro:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(168, 85, 247, 0.8) !important;
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), 0 0 50px rgba(168, 85, 247, 0.15), 0 12px 30px -5px rgba(0, 0, 0, 0.85) !important;
 }
 
+/* Plan 3: Lifetime Founder Access (Emerald Neon Glow) */
 .adl-shell.dark .adl-plan-lifetime:hover,
 html.dark .adl-plan-lifetime:hover,
-body.dark .adl-plan-lifetime:hover,
+body.dark .adl-plan-lifetime:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(16, 185, 129, 0.8) !important;
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.4), 0 0 50px rgba(16, 185, 129, 0.15), 0 12px 30px -5px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* Light Mode Hover Glow */
+.adl-plan-starter:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(2, 132, 199, 0.6) !important;
+  box-shadow: 0 12px 30px rgba(2, 132, 199, 0.25) !important;
+}
+.adl-plan-pro:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(124, 58, 237, 0.6) !important;
+  box-shadow: 0 12px 30px rgba(124, 58, 237, 0.25) !important;
+}
 .adl-plan-lifetime:hover {
-  transform: none !important;
-  border-color: rgba(16, 185, 129, 0.5) !important;
+  transform: translateY(-5px) !important;
+  border-color: rgba(5, 150, 105, 0.6) !important;
+  box-shadow: 0 12px 30px rgba(5, 150, 105, 0.25) !important;
 }
 
 /* =========================================================================
-   PRICING PLAN CTA BUTTONS (100% FIXED, NO MOVEMENT, ZERO HOVER GLOW)
+   PRICING PLAN CTA BUTTONS (STABLE FIXED POSITION, ZERO BLACK INSET SHADOWS)
    ========================================================================= */
 .adl-shell .adl-plan-btn,
 .adl-shell.dark .adl-plan-btn,
@@ -865,82 +884,81 @@ body.dark .adl-plan-btn,
   cursor: pointer !important;
   user-select: none !important;
   transform: none !important;
-  transition: opacity 0.15s ease !important;
+  transition: box-shadow 0.2s ease, filter 0.2s ease !important;
 }
 
 .adl-shell .adl-plan-btn:hover,
 .adl-shell.dark .adl-plan-btn:hover,
 .adl-plan-btn:hover {
   transform: none !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
-  opacity: 0.95 !important;
+  filter: brightness(1.08) !important;
 }
 
 .adl-shell .adl-plan-btn:active,
 .adl-shell.dark .adl-plan-btn:active,
 .adl-plan-btn:active {
   transform: none !important;
-  opacity: 0.9 !important;
+  filter: brightness(0.95) !important;
 }
 
-/* Plan 1 Button: Starter Agency (Solid Sky Blue, Fixed, No Glow) */
+/* Plan 1 Button: Starter Agency (Sky Blue Radiant Glow) */
 .adl-shell .adl-plan-btn-starter,
 .adl-shell.dark .adl-plan-btn-starter,
 html.dark .adl-plan-btn-starter,
 body.dark .adl-plan-btn-starter,
 .adl-plan-btn-starter {
   background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
-  border: 1px solid rgba(56, 189, 248, 0.4) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
 }
 
 .adl-shell .adl-plan-btn-starter:hover,
 .adl-shell.dark .adl-plan-btn-starter:hover,
 .adl-plan-btn-starter:hover {
-  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
-  border-color: rgba(56, 189, 248, 0.6) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+  border-color: rgba(125, 211, 252, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55), 0 0 15px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
-/* Plan 2 Button: Annual Pro Pass (Solid Purple, Fixed, No Glow) */
+/* Plan 2 Button: Annual Pro Pass (Purple/Indigo Radiant Glow) */
 .adl-shell .adl-plan-btn-pro,
 .adl-shell.dark .adl-plan-btn-pro,
 html.dark .adl-plan-btn-pro,
 body.dark .adl-plan-btn-pro,
 .adl-plan-btn-pro {
   background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
-  border: 1px solid rgba(192, 132, 252, 0.4) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(192, 132, 252, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
 }
 
 .adl-shell .adl-plan-btn-pro:hover,
 .adl-shell.dark .adl-plan-btn-pro:hover,
 .adl-plan-btn-pro:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
-  border-color: rgba(192, 132, 252, 0.6) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  background: linear-gradient(135deg, #9333ea 0%, #6366f1 100%) !important;
+  border-color: rgba(216, 180, 254, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.55), 0 0 15px rgba(192, 132, 252, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
-/* Plan 3 Button: Lifetime Founder Pass (Solid Emerald, Fixed, No Glow) */
+/* Plan 3 Button: Lifetime Founder Pass (Emerald/Teal Radiant Glow) */
 .adl-shell .adl-plan-btn-lifetime,
 .adl-shell.dark .adl-plan-btn-lifetime,
 html.dark .adl-plan-btn-lifetime,
 body.dark .adl-plan-btn-lifetime,
 .adl-plan-btn-lifetime {
   background: linear-gradient(135deg, #059669 0%, #0d9488 100%) !important;
-  border: 1px solid rgba(52, 211, 153, 0.4) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  border: 1px solid rgba(52, 211, 153, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
 }
 
 .adl-shell .adl-plan-btn-lifetime:hover,
 .adl-shell.dark .adl-plan-btn-lifetime:hover,
 .adl-plan-btn-lifetime:hover {
-  background: linear-gradient(135deg, #059669 0%, #0d9488 100%) !important;
-  border-color: rgba(52, 211, 153, 0.6) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important;
+  border-color: rgba(110, 231, 183, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.55), 0 0 15px rgba(52, 211, 153, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 /* =========================================================================
