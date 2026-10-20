@@ -11746,19 +11746,22 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                 </div>
               </div>
 
-              <div className="pt-5 mt-5 border-t border-slate-200/80">
+              <div className="pt-5 mt-5 border-t border-slate-200/80 dark:border-white/10">
                 <button
                   type="button"
-                  onClick={() => handleOpenPlanCheckout(plan)}
-                  className={`w-full py-3 rounded-2xl text-xs font-extrabold transition-all flex items-center justify-center gap-2 cursor-pointer select-none active:scale-[0.98] ${
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenPlanCheckout(plan);
+                  }}
+                  className={`adl-plan-btn ${
                     plan.id === 'starter_monthly'
-                      ? 'bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-700 hover:to-blue-700 text-white shadow-[3px_3px_10px_rgba(2,132,199,0.35),-2px_-2px_6px_#ffffff] active:shadow-[inset_2px_2px_6px_rgba(0,0,0,0.3)]'
+                      ? 'adl-plan-btn-starter'
                       : plan.id === 'pro_annual'
-                        ? 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-[3px_3px_10px_rgba(124,58,237,0.35),-2px_-2px_6px_#ffffff] active:shadow-[inset_2px_2px_6px_rgba(0,0,0,0.3)]'
-                        : 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-[3px_3px_10px_rgba(5,150,105,0.35),-2px_-2px_6px_#ffffff] active:shadow-[inset_2px_2px_6px_rgba(0,0,0,0.3)]'
+                        ? 'adl-plan-btn-pro'
+                        : 'adl-plan-btn-lifetime'
                   }`}
                 >
-                  <CreditCard size={15} />
+                  <CreditCard size={15} className="stroke-[2.5]" />
                   <span>{plan.btnText}</span>
                 </button>
               </div>

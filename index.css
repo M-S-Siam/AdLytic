@@ -863,6 +863,104 @@ body.dark .adl-plan-lifetime:hover {
 }
 
 /* =========================================================================
+   PRICING PLAN CTA BUTTONS (LUXURY VIBRANT GLOW, ZERO BLACK INSET SHADOWS)
+   ========================================================================= */
+.adl-shell .adl-plan-btn,
+.adl-shell.dark .adl-plan-btn,
+html.dark .adl-plan-btn,
+body.dark .adl-plan-btn,
+.adl-plan-btn {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  padding: 0.8125rem 1rem !important;
+  border-radius: 1rem !important;
+  font-weight: 800 !important;
+  font-size: 0.8125rem !important;
+  letter-spacing: 0.025em !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease !important;
+}
+
+.adl-shell .adl-plan-btn:hover,
+.adl-shell.dark .adl-plan-btn:hover,
+.adl-plan-btn:hover {
+  transform: translateY(-2px) !important;
+  filter: brightness(1.08) !important;
+}
+
+.adl-shell .adl-plan-btn:active,
+.adl-shell.dark .adl-plan-btn:active,
+.adl-plan-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+  filter: brightness(0.95) !important;
+}
+
+/* Plan 1 Button: Starter Agency (Sky Blue Radiant Glow) */
+.adl-shell .adl-plan-btn-starter,
+.adl-shell.dark .adl-plan-btn-starter,
+html.dark .adl-plan-btn-starter,
+body.dark .adl-plan-btn-starter,
+.adl-plan-btn-starter {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
+  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.adl-shell .adl-plan-btn-starter:hover,
+.adl-shell.dark .adl-plan-btn-starter:hover,
+.adl-plan-btn-starter:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
+  border-color: rgba(125, 211, 252, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55), 0 0 15px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Plan 2 Button: Annual Pro Pass (Purple/Indigo Radiant Glow) */
+.adl-shell .adl-plan-btn-pro,
+.adl-shell.dark .adl-plan-btn-pro,
+html.dark .adl-plan-btn-pro,
+body.dark .adl-plan-btn-pro,
+.adl-plan-btn-pro {
+  background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
+  border: 1px solid rgba(192, 132, 252, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.adl-shell .adl-plan-btn-pro:hover,
+.adl-shell.dark .adl-plan-btn-pro:hover,
+.adl-plan-btn-pro:hover {
+  background: linear-gradient(135deg, #9333ea 0%, #6366f1 100%) !important;
+  border-color: rgba(216, 180, 254, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.55), 0 0 15px rgba(192, 132, 252, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Plan 3 Button: Lifetime Founder Pass (Emerald/Teal Radiant Glow) */
+.adl-shell .adl-plan-btn-lifetime,
+.adl-shell.dark .adl-plan-btn-lifetime,
+html.dark .adl-plan-btn-lifetime,
+body.dark .adl-plan-btn-lifetime,
+.adl-plan-btn-lifetime {
+  background: linear-gradient(135deg, #059669 0%, #0d9488 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.5) !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.adl-shell .adl-plan-btn-lifetime:hover,
+.adl-shell.dark .adl-plan-btn-lifetime:hover,
+.adl-plan-btn-lifetime:hover {
+  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important;
+  border-color: rgba(110, 231, 183, 0.9) !important;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.55), 0 0 15px rgba(52, 211, 153, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+}
+
+/* =========================================================================
    USER GUIDE & SOP HIGH-CONTRAST LEGIBLE DARK MODE TYPOGRAPHY
    ========================================================================= */
 .adl-shell.dark [class*="text-amber-950"],
