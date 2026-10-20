@@ -1390,7 +1390,7 @@ export default function AdLedgerApp() {
                 {subscription?.status === 'active' ? (
                   <>
                     <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                    <span>Pro Active · ৳500/mo</span>
+                    <span>{subscription?.plan === 'lifetime_founder' ? 'Lifetime Active · ৳8,000' : subscription?.plan === 'pro_annual' ? 'Pro Active · ৳4,500/yr' : 'Starter Active · ৳500/mo'}</span>
                   </>
                 ) : (
                   <>
@@ -11677,7 +11677,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
               <div className="text-[11px] font-semibold text-slate-500">Current Status</div>
               <div className="text-sm font-extrabold text-emerald-700 flex items-center justify-end gap-1.5 mt-0.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                {isProActive ? 'Pro Active' : '3-Day Trial Active'}
+                {isProActive ? (subscription?.plan === 'lifetime_founder' ? 'Lifetime Active' : subscription?.plan === 'pro_annual' ? 'Pro Active' : 'Starter Active') : '3-Day Trial Active'}
               </div>
             </div>
           </div>
