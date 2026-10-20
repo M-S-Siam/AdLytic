@@ -863,7 +863,7 @@ body.dark .adl-plan-lifetime:hover {
 }
 
 /* =========================================================================
-   PRICING PLAN CTA BUTTONS (STABLE FIXED POSITION, ZERO BLACK INSET SHADOWS)
+   PRICING PLAN CTA BUTTONS (STABLE FIXED POSITION, ZERO HOVER GLOW)
    ========================================================================= */
 .adl-shell .adl-plan-btn,
 .adl-shell.dark .adl-plan-btn,
@@ -884,81 +884,67 @@ body.dark .adl-plan-btn,
   cursor: pointer !important;
   user-select: none !important;
   transform: none !important;
-  transition: box-shadow 0.2s ease, filter 0.2s ease !important;
+  transition: opacity 0.15s ease !important;
 }
 
 .adl-shell .adl-plan-btn:hover,
 .adl-shell.dark .adl-plan-btn:hover,
 .adl-plan-btn:hover {
   transform: none !important;
-  filter: brightness(1.08) !important;
+  filter: none !important;
 }
 
 .adl-shell .adl-plan-btn:active,
 .adl-shell.dark .adl-plan-btn:active,
 .adl-plan-btn:active {
   transform: none !important;
-  filter: brightness(0.95) !important;
+  filter: none !important;
+  opacity: 0.92 !important;
 }
 
-/* Plan 1 Button: Starter Agency (Sky Blue Radiant Glow) */
+/* Plan 1 Button: Starter Agency (Calm Solid Blue, No Hover Glow) */
 .adl-shell .adl-plan-btn-starter,
 .adl-shell.dark .adl-plan-btn-starter,
 html.dark .adl-plan-btn-starter,
 body.dark .adl-plan-btn-starter,
-.adl-plan-btn-starter {
+.adl-plan-btn-starter,
+.adl-shell .adl-plan-btn-starter:hover,
+.adl-shell.dark .adl-plan-btn-starter:hover,
+.adl-plan-btn-starter:hover {
   background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
   border: 1px solid rgba(56, 189, 248, 0.5) !important;
   box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
 }
 
-.adl-shell .adl-plan-btn-starter:hover,
-.adl-shell.dark .adl-plan-btn-starter:hover,
-.adl-plan-btn-starter:hover {
-  background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%) !important;
-  border-color: rgba(125, 211, 252, 0.9) !important;
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.55), 0 0 15px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-}
-
-/* Plan 2 Button: Annual Pro Pass (Purple/Indigo Radiant Glow) */
+/* Plan 2 Button: Annual Pro Pass (Calm Solid Purple, No Hover Glow) */
 .adl-shell .adl-plan-btn-pro,
 .adl-shell.dark .adl-plan-btn-pro,
 html.dark .adl-plan-btn-pro,
 body.dark .adl-plan-btn-pro,
-.adl-plan-btn-pro {
+.adl-plan-btn-pro,
+.adl-shell .adl-plan-btn-pro:hover,
+.adl-shell.dark .adl-plan-btn-pro:hover,
+.adl-plan-btn-pro:hover {
   background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%) !important;
   border: 1px solid rgba(192, 132, 252, 0.5) !important;
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
 }
 
-.adl-shell .adl-plan-btn-pro:hover,
-.adl-shell.dark .adl-plan-btn-pro:hover,
-.adl-plan-btn-pro:hover {
-  background: linear-gradient(135deg, #9333ea 0%, #6366f1 100%) !important;
-  border-color: rgba(216, 180, 254, 0.9) !important;
-  box-shadow: 0 8px 24px rgba(147, 51, 234, 0.55), 0 0 15px rgba(192, 132, 252, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
-}
-
-/* Plan 3 Button: Lifetime Founder Pass (Emerald/Teal Radiant Glow) */
+/* Plan 3 Button: Lifetime Founder Pass (Calm Solid Emerald, No Hover Glow) */
 .adl-shell .adl-plan-btn-lifetime,
 .adl-shell.dark .adl-plan-btn-lifetime,
 html.dark .adl-plan-btn-lifetime,
 body.dark .adl-plan-btn-lifetime,
-.adl-plan-btn-lifetime {
+.adl-plan-btn-lifetime,
+.adl-shell .adl-plan-btn-lifetime:hover,
+.adl-shell.dark .adl-plan-btn-lifetime:hover,
+.adl-plan-btn-lifetime:hover {
   background: linear-gradient(135deg, #059669 0%, #0d9488 100%) !important;
   border: 1px solid rgba(52, 211, 153, 0.5) !important;
   box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
-}
-
-.adl-shell .adl-plan-btn-lifetime:hover,
-.adl-shell.dark .adl-plan-btn-lifetime:hover,
-.adl-plan-btn-lifetime:hover {
-  background: linear-gradient(135deg, #10b981 0%, #14b8a6 100%) !important;
-  border-color: rgba(110, 231, 183, 0.9) !important;
-  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.55), 0 0 15px rgba(52, 211, 153, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
 }
 
 /* =========================================================================
