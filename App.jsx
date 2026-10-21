@@ -11517,7 +11517,11 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
         bankRef: (paymentMethod === 'bkash' || paymentMethod === 'nagad') ? null : bankRefNum,
         rawMethod: paymentMethod,
         date: dateStr,
-        amount: checkoutPlan.price,
+        amount: payablePrice,
+        baseAmount: currentPlanPrice,
+        discountAmount: promoDiscountAmount,
+        promoCode: appliedPromo ? appliedPromo.code : null,
+        promoPercent: appliedPromo ? appliedPromo.discountPercent : 0,
         planName: checkoutPlan.name,
         planId: checkoutPlan.id,
         paymentMethod: channelDisplay,
@@ -11536,7 +11540,9 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
           status: 'active',
           plan: checkoutPlan.id,
           planName: checkoutPlan.name,
-          price: checkoutPlan.price,
+          price: payablePrice,
+          promoCode: appliedPromo ? appliedPromo.code : null,
+          discountAmount: promoDiscountAmount,
           activatedTrxId: generatedTrxId,
           paymentMethod: channelDisplay,
           expiresAt: Date.now() + (checkoutPlan.id === 'lifetime_founder' ? 3650 * 24 * 60 * 60 * 1000 : checkoutPlan.id === 'pro_annual' ? 365 * 24 * 60 * 60 * 1000 : 30 * 24 * 60 * 60 * 1000)
@@ -11607,16 +11613,24 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
             </thead>
             <tbody>
               <tr>
-                <td><strong>${receipt.planName}</strong><br><span style="font-size: 11px; color: #64748b;">Full Pro Workspace Telemetry, FX Wallet & Multi-Client Ledger</span></td>
+                <td>
+                  <strong>${receipt.planName}</strong>
+                  ${receipt.promoCode ? `<br><span style="display:inline-block;margin-top:4px;padding:2px 8px;border-radius:4px;background:#dcfce7;color:#166534;font-size:10px;font-weight:800;border:1px solid #bbf7d0;">✓ Promo Code "${receipt.promoCode}" Applied (-${receipt.promoPercent}% OFF)</span>` : ''}
+                  <br><span style="font-size: 11px; color: #64748b;">Full Pro Workspace Telemetry, FX Wallet & Multi-Client Ledger</span>
+                </td>
                 <td>${receipt.paymentMethod}</td>
-                <td style="text-align: right; font-weight: 800;">৳${receipt.amount.toLocaleString()}</td>
+                <td style="text-align: right; font-weight: 800;">
+                  ${receipt.promoCode ? `<div style="font-size: 11px; color: #94a3b8; text-decoration: line-through; font-weight: 600;">৳${(receipt.baseAmount || receipt.amount).toLocaleString()}</div>` : ''}
+                  ৳${receipt.amount.toLocaleString()}
+                </td>
               </tr>
             </tbody>
           </table>
-          <div style="max-width: 250px; margin-left: auto;">
-            <div class="total-row"><span>Subtotal:</span><span>৳${receipt.amount.toLocaleString()}</span></div>
+          <div style="max-width: 280px; margin-left: auto;">
+            <div class="total-row"><span>Plan Base Price:</span><span>৳${(receipt.baseAmount || receipt.amount).toLocaleString()}</span></div>
+            ${receipt.promoCode ? `<div class="total-row" style="color: #166534; font-weight: 700;"><span>Promo Discount (${receipt.promoCode} -${receipt.promoPercent}%):</span><span>- ৳${receipt.discountAmount.toLocaleString()}</span></div>` : ''}
             <div class="total-row"><span>Govt. 15% VAT:</span><span style="color: #166534; font-weight: 700;">Promo Waived (৳0)</span></div>
-            <div class="total-row grand-total"><span>Total Paid:</span><span>৳${receipt.amount.toLocaleString()}</span></div>
+            <div class="total-row grand-total"><span>Total Paid:</span><span style="color: #0284c7;">৳${receipt.amount.toLocaleString()}</span></div>
           </div>
           <div class="footer">
             Quantrex Technologies Inc. · Computer Generated Tax Invoice · No Signature Required
@@ -12631,6 +12645,11 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                   <p className="text-xs text-slate-300 mt-1">
                     BDT {completedReceipt.amount.toLocaleString()}.00 received. Workspace <strong>{businessName}</strong> upgraded to <strong>{completedReceipt.planName}</strong>.
                   </p>
+                  {completedReceipt.promoCode && (
+                    <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold">
+                      <Sparkles size={12} /> Promo &quot;{completedReceipt.promoCode}&quot; Applied (-৳{completedReceipt.discountAmount?.toLocaleString()} Saved)
+                    </div>
+                  )}
                 </div>
 
                 {/* Receipt Details Box */}
@@ -12667,6 +12686,26 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                     <span className="font-bold text-white">{completedReceipt.accountNumber}</span>
                   </div>
 
+                  {completedReceipt.promoCode && (
+                    <>
+                      <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
+                        <span className="text-slate-400 font-sans">Plan Base Price:</span>
+                        <span className="font-semibold text-slate-400 line-through">৳{completedReceipt.baseAmount?.toLocaleString()}</span>
+                      </div>
+                      <div className="flex justify-between items-center border-b border-[#1e293b] pb-2 text-emerald-400">
+                        <span className="font-sans flex items-center gap-1">
+                          Promo Discount ({completedReceipt.promoCode}):
+                        </span>
+                        <span className="font-bold">- ৳{completedReceipt.discountAmount?.toLocaleString()} ({completedReceipt.promoPercent}% OFF)</span>
+                      </div>
+                    </>
+                  )}
+
+                  <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
+                    <span className="text-slate-300 font-sans font-bold">Total Amount Paid:</span>
+                    <span className="font-black text-emerald-400 text-sm">৳{completedReceipt.amount.toLocaleString()}</span>
+                  </div>
+
                   <div className="flex justify-between items-center">
                     <span className="text-slate-400 font-sans">Verification Status:</span>
                     <span className="font-bold text-emerald-400 flex items-center gap-1">
@@ -12674,7 +12713,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                     </span>
                   </div>
                 </div>
-
                 {/* Action Area: Download Icon & Finish Button */}
                 <div className="flex flex-col items-center justify-center gap-3 pt-2">
                   <button
