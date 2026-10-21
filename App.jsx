@@ -12041,9 +12041,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                       <span className="text-xs font-bold text-white bg-blue-500/15 border border-blue-500/30 px-2.5 py-0.5 rounded-lg">
                         {checkoutPlan.name}
                       </span>
-                      <span className="text-[11px] text-slate-400 font-medium">
-                        ({checkoutPlan.period})
-                      </span>
                     </div>
                   </div>
 
@@ -12314,7 +12311,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                             )}
                           </div>
                           <div className="text-[11px] text-slate-400 mt-0.5 font-medium">
-                            Plan: <strong className="text-slate-200">{checkoutPlan.name}</strong> ({checkoutPlan.period})
+                            Plan: <strong className="text-slate-200">{checkoutPlan.name}</strong>
                             {appliedPromo && (
                               <span className="text-emerald-400 font-bold ml-1.5">
                                 • Save ৳{promoDiscountAmount.toLocaleString()} ({appliedPromo.discountPercent}% OFF)
@@ -12560,7 +12557,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                             )}
                           </div>
                           <div className="text-[11px] text-slate-400 mt-0.5 font-medium">
-                            Plan: <strong className="text-slate-200">{checkoutPlan.name}</strong> ({checkoutPlan.period})
+                            Plan: <strong className="text-slate-200">{checkoutPlan.name}</strong>
                             {appliedPromo && (
                               <span className="text-emerald-400 font-bold ml-1.5">• Save ৳{promoDiscountAmount.toLocaleString()} ({appliedPromo.discountPercent}% OFF)</span>
                             )}
