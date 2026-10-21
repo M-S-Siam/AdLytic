@@ -12645,11 +12645,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                   <p className="text-xs text-slate-300 mt-1">
                     BDT {completedReceipt.amount.toLocaleString()}.00 received. Workspace <strong>{businessName}</strong> upgraded to <strong>{completedReceipt.planName}</strong>.
                   </p>
-                  {completedReceipt.promoCode && (
-                    <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold">
-                      <Sparkles size={12} /> Promo &quot;{completedReceipt.promoCode}&quot; Applied (-৳{completedReceipt.discountAmount?.toLocaleString()} Saved)
-                    </div>
-                  )}
                 </div>
 
                 {/* Receipt Details Box */}
