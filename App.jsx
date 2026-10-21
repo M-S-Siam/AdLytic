@@ -11644,7 +11644,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       badge: '50% OFF - Most Popular',
       popular: true,
       trialNote: '✨ 3-Day Free Trial Included',
-      btnText: 'Subscribe for ৳500 / mo',
+      btnText: 'Get Starter Plan (৳500)',
       features: [
         'Full Dual-Currency Ledger (BDT & USD)',
         'Unlimited Clients & Campaign Portfolios',
