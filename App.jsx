@@ -1417,70 +1417,78 @@ export default function AdLedgerApp() {
                 {isNewEntryOpen && (
                   <div
                     style={{ right: 0 }}
-                    className="absolute right-0 mt-2.5 w-64 bg-[#ebf0f7] rounded-2xl shadow-[8px_8px_24px_rgba(166,180,200,0.6),-8px_-8px_24px_#ffffff] border border-white p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                    className="absolute right-0 mt-2.5 w-72 bg-[#ebf0f7] dark:bg-[#0b101b] rounded-2xl shadow-xl shadow-slate-900/30 border border-white dark:border-slate-800 p-2.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                   >
-                    <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 mb-1">
+                    <div className="px-3 pb-2 pt-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                       Quick Record Actions
                     </div>
 
-                    <button
-                      onClick={() => {
-                        setSelectedClient(null);
-                        setActiveModal('payment');
-                        setIsNewEntryOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/70 text-left transition-colors group"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-                        <ArrowDownLeft size={16} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-emerald-700">
-                          Receive Client Payment
+                    <div className="space-y-1.5">
+                      <button
+                        onClick={() => {
+                          setSelectedClient(null);
+                          setActiveModal('payment');
+                          setIsNewEntryOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20 group-hover:scale-105 transition-transform shadow-xs">
+                          <ArrowDownLeft size={16} className="stroke-[2.5]" />
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Record incoming BDT revenue</div>
-                      </div>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setSelectedCard(null);
-                        setActiveModal('usd');
-                        setIsNewEntryOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/70 text-left transition-colors group"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-                        <DollarSign size={16} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-sky-700">
-                          Record USD Purchase
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Receive Client Payment
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Record incoming BDT revenue
+                          </div>
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Load USD onto ad card</div>
-                      </div>
-                    </button>
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        setSelectedCard(null);
-                        setActiveModal('spend');
-                        setIsNewEntryOpen(false);
-                      }}
-                      className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/70 text-left transition-colors group"
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-                        <Activity size={16} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-purple-700">
-                          Record Meta Ad Spend
+                      <button
+                        onClick={() => {
+                          setSelectedCard(null);
+                          setActiveModal('usd');
+                          setIsNewEntryOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 group-hover:scale-105 transition-transform shadow-xs">
+                          <DollarSign size={16} className="stroke-[2.5]" />
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Log live campaign deductions</div>
-                      </div>
-                    </button>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Record USD Purchase
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Load USD onto ad card
+                          </div>
+                        </div>
+                      </button>
 
-                    <div className="my-1 border-t border-slate-200" />
+                      <button
+                        onClick={() => {
+                          setSelectedCard(null);
+                          setActiveModal('spend');
+                          setIsNewEntryOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 dark:text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/20 group-hover:scale-105 transition-transform shadow-xs">
+                          <Activity size={16} className="stroke-[2.5]" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Record Meta Ad Spend
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Log live campaign deductions
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+
+                    <div className="my-2 border-t border-slate-200/80 dark:border-slate-800" />
 
                     <button
                       onClick={() => {
@@ -1488,16 +1496,18 @@ export default function AdLedgerApp() {
                         setActiveModal('add-client');
                         setIsNewEntryOpen(false);
                       }}
-                      className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/70 text-left transition-colors group"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
                     >
-                      <div className="w-8 h-8 rounded-lg bg-slate-200/70 text-slate-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+                      <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 group-hover:scale-105 transition-transform shadow-xs">
                         <UserPlus size={16} className="stroke-[2.5]" />
                       </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-slate-950">
+                      <div className="min-w-0">
+                        <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
                           Add New Client
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Client profile & settings</div>
+                        <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                          Client profile &amp; settings
+                        </div>
                       </div>
                     </button>
                   </div>
@@ -14422,22 +14432,37 @@ function TransactionTypeBadge({ type }) {
 
 function Modal({ title, onClose, children, width = "max-w-md", zIndex = "z-[99999]" }) {
   if (typeof document === "undefined") return null;
+  const isDark = typeof document !== 'undefined' && (
+    document.documentElement.classList.contains('dark') ||
+    document.body.classList.contains('dark') ||
+    (typeof localStorage !== 'undefined' && localStorage.getItem('quantrex_neumorphic_theme') === 'dark')
+  );
+
   return createPortal(
     <div
-      className={`fixed inset-0 ${zIndex} flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 sm:p-0 animate-in fade-in duration-200`}
+      className={`fixed inset-0 ${zIndex} flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 sm:p-0 animate-in fade-in duration-200 ${isDark ? 'dark' : ''}`}
       onClick={(e) => {
         if (e.target === e.currentTarget && onClose) onClose();
       }}
     >
       <div
-        className={`bg-white rounded-xl shadow-2xl w-full ${width} overflow-hidden flex flex-col max-h-[92vh] border border-slate-200/90`}
+        className={`bg-white dark:bg-[#0b101b] rounded-2xl shadow-2xl w-full ${width} overflow-hidden flex flex-col max-h-[92vh] border border-slate-200/90 dark:border-slate-800/90 transition-colors`}
+        style={isDark ? { backgroundColor: '#0b101b', borderColor: '#1e293b', color: '#f8fafc' } : {}}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center px-5 py-3 border-b border-slate-200/80 bg-slate-50/80 shrink-0">
-          <h3 className="text-sm font-bold text-slate-900">{title}</h3>
-          <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"><X size={18} /></button>
+        <div
+          className="flex justify-between items-center px-5 py-3.5 border-b border-slate-200/80 dark:border-slate-800/80 bg-slate-50/80 dark:bg-[#080d17] shrink-0"
+          style={isDark ? { backgroundColor: '#080d17', borderColor: '#1e293b' } : {}}
+        >
+          <h3 className="text-sm font-bold text-slate-900 dark:text-white" style={isDark ? { color: '#ffffff' } : {}}>{title}</h3>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors cursor-pointer"
+          >
+            <X size={18} />
+          </button>
         </div>
-        <div className="p-4 sm:p-4.5 overflow-y-auto">
+        <div className="p-4 sm:p-5 overflow-y-auto text-slate-800 dark:text-slate-200" style={isDark ? { color: '#cbd5e1' } : {}}>
           {children}
         </div>
       </div>
@@ -15010,10 +15035,10 @@ function ClientForm({ initialData, onSubmit, onCancel }) {
     });
   };
 
-  const inputClass = "w-full mt-0.5 px-2.5 py-1.5 border rounded-lg shadow-2xs focus:outline-none focus:ring-2 text-xs font-semibold text-slate-800 bg-white transition-all placeholder:text-slate-400 placeholder:font-normal h-[34px]";
-  const normalInputBorder = "border-slate-200/90 focus:ring-sky-500/20 focus:border-sky-500";
-  const errorInputBorder = "border-rose-400 focus:ring-rose-500/20 focus:border-rose-500 bg-rose-50/20";
-  const labelClass = "block text-[9.5px] font-bold text-slate-500 uppercase tracking-wider";
+  const inputClass = "w-full mt-0.5 px-2.5 py-1.5 border rounded-lg shadow-2xs focus:outline-none focus:ring-2 text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#141b2d] transition-all placeholder:text-slate-400 placeholder:font-normal h-[34px]";
+  const normalInputBorder = "border-slate-200/90 dark:border-slate-700/80 focus:ring-sky-500/20 focus:border-sky-500";
+  const errorInputBorder = "border-rose-400 focus:ring-rose-500/20 focus:border-rose-500 bg-rose-50/20 dark:bg-rose-950/20";
+  const labelClass = "block text-[9.5px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2.5">
@@ -15109,8 +15134,8 @@ function ClientForm({ initialData, onSubmit, onCancel }) {
         />
       </div>
 
-      <div className="flex gap-2.5 pt-2 border-t border-slate-100">
-        <button type="button" onClick={onCancel} className="flex-1 px-4 py-2 bg-white border border-slate-200/90 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50 transition-all shadow-2xs">Cancel</button>
+      <div className="flex gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+        <button type="button" onClick={onCancel} className="flex-1 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200/90 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-2xs cursor-pointer">Cancel</button>
         <button type="submit" disabled={Boolean(phoneError && touched.phone) || Boolean(emailError && touched.email)} className="flex-1 px-4 py-2 bg-sky-600 hover:bg-sky-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg text-xs font-bold shadow-sm transition-all hover:scale-[1.01]">Save Client</button>
       </div>
     </form>
@@ -15131,7 +15156,7 @@ function CardForm({ initialData, onSubmit, onCancel }) {
       initialBalance: parseFloat(formData.initialBalance) || 0
     });
   };
-  const inputClass = "w-full mt-1 px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm";
+  const inputClass = "w-full mt-1 px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg shadow-2xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm bg-white dark:bg-[#141b2d] text-slate-900 dark:text-white transition-all placeholder:text-slate-400";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -15168,9 +15193,9 @@ function CardForm({ initialData, onSubmit, onCancel }) {
       <div><label className="block text-sm font-medium text-slate-700">Notes</label>
         <textarea name="notes" value={formData.notes} onChange={handleChange} placeholder="Optional details..." rows="2" className={inputClass}></textarea>
       </div>
-      <div className="flex gap-3 pt-4 border-t border-slate-100">
-        <button type="button" onClick={onCancel} className="flex-1 px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-md text-sm font-medium hover:bg-slate-50">Cancel</button>
-        <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">Save Card</button>
+      <div className="flex gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <button type="button" onClick={onCancel} className="flex-1 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">Cancel</button>
+        <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm cursor-pointer">Save Card</button>
       </div>
     </form>
   );
@@ -15656,8 +15681,8 @@ function TransactionForm({ type, initialData, clients, cards, onSubmit, onCancel
     onSubmit(payload);
   };
 
-  const inputClass = "w-full mt-1 px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm";
-  const labelClass = "block text-sm font-medium text-slate-700";
+  const inputClass = "w-full mt-1 px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg shadow-2xs focus:outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500 text-sm bg-white dark:bg-[#141b2d] text-slate-900 dark:text-white transition-all placeholder:text-slate-400";
+  const labelClass = "block text-sm font-medium text-slate-700 dark:text-slate-300";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -15749,7 +15774,7 @@ function TransactionForm({ type, initialData, clients, cards, onSubmit, onCancel
             </div>
           </div>
           {formData.amountUSD ? (
-            <div className="p-3 bg-blue-50 border border-blue-100 rounded text-sm text-blue-800">
+            <div className="p-3 bg-blue-50 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/50 rounded-lg text-sm text-blue-800 dark:text-blue-300">
               Total Card Deduction = Ad Spend + Tax
               <div className="mt-1 font-bold">Total Card Deduction: ${(parseFloat(formData.amountUSD || 0) + parseFloat(formData.taxUSD || 0)).toFixed(2)}</div>
             </div>
@@ -15763,9 +15788,9 @@ function TransactionForm({ type, initialData, clients, cards, onSubmit, onCancel
         </div>
       )}
 
-      <div className="flex gap-3 pt-4 border-t border-slate-100">
-        <button type="button" onClick={onCancel} className="flex-1 px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-md text-sm font-medium hover:bg-slate-50">Cancel</button>
-        <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700">Save Transaction</button>
+      <div className="flex gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+        <button type="button" onClick={onCancel} className="flex-1 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors cursor-pointer">Cancel</button>
+        <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm cursor-pointer">Save Transaction</button>
       </div>
     </form>
   );

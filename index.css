@@ -741,14 +741,72 @@ body.dark {
   background-color: rgba(255, 255, 255, 0.03) !important;
 }
 
-/* MODALS IN DARK MODE */
+/* MODALS IN DARK MODE (APPLIES EVERYWHERE INCLUDING PORTALED DIALOGS) */
+html.dark [role="dialog"],
+body.dark [role="dialog"],
+.dark [role="dialog"],
+html.dark .fixed [class*="bg-white"]:not(.adl-plan-btn),
+body.dark .fixed [class*="bg-white"]:not(.adl-plan-btn),
+.dark .fixed [class*="bg-white"]:not(.adl-plan-btn),
+html.dark .fixed [class*="bg-slate-50"],
+body.dark .fixed [class*="bg-slate-50"],
+.dark .fixed [class*="bg-slate-50"],
+html.dark .fixed [class*="bg-[#ebf0f7]"],
+body.dark .fixed [class*="bg-[#ebf0f7]"],
+.dark .fixed [class*="bg-[#ebf0f7]"],
 .adl-shell.dark [role="dialog"],
-.adl-shell.dark .fixed [class*="bg-white"],
+.adl-shell.dark .fixed [class*="bg-white"]:not(.adl-plan-btn),
 .adl-shell.dark .fixed [class*="bg-[#ebf0f7]"] {
-  background-color: #111722 !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: #0b101b !important;
+  border-color: #1e293b !important;
   color: #f8fafc !important;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85) !important;
+}
+
+html.dark .fixed .border-b,
+body.dark .fixed .border-b,
+.dark .fixed .border-b {
+  border-color: #1e293b !important;
+}
+
+html.dark .fixed h3,
+body.dark .fixed h3,
+.dark .fixed h3 {
+  color: #f8fafc !important;
+}
+
+html.dark .fixed label,
+body.dark .fixed label,
+.dark .fixed label {
+  color: #94a3b8 !important;
+}
+
+html.dark .fixed input,
+body.dark .fixed input,
+.dark .fixed input,
+html.dark .fixed select,
+body.dark .fixed select,
+.dark .fixed select,
+html.dark .fixed textarea,
+body.dark .fixed textarea,
+.dark .fixed textarea {
+  background-color: #141b2d !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+html.dark .fixed button[class*="bg-white"],
+body.dark .fixed button[class*="bg-white"],
+.dark .fixed button[class*="bg-white"] {
+  background-color: #151c2e !important;
+  border-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+html.dark .fixed button[class*="bg-white"]:hover,
+body.dark .fixed button[class*="bg-white"]:hover,
+.dark .fixed button[class*="bg-white"]:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
 }
 
 /* =========================================================================
