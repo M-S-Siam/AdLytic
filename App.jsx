@@ -11705,15 +11705,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
               <Sparkles size={20} className="animate-pulse" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 border border-amber-300/80 dark:border-amber-500/40 text-[10px] font-black uppercase tracking-wider">
-                  Special Launch Promo
-                </span>
-                <span className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400">
-                  Use Code: LAUNCH500 for 50% OFF
-                </span>
-              </div>
-              <h3 className="text-base font-extrabold text-slate-900 dark:text-white mt-1">
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
                 Special Launch Offer: Choose a Subscription Plan starting from ৳500!
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
