@@ -1396,7 +1396,7 @@ export default function AdLedgerApp() {
                     <span className={`px-1.5 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider ${
                       theme === 'dark' ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-amber-500 text-white shadow-xs'
                     }`}>
-                      Promo Auto-Applied
+                      50% OFF Available
                     </span>
                   </>
                 )}
@@ -11693,39 +11693,60 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
   ];
 
   const isProActive = subscription?.status === 'active';
+  const activePlanName = subscription?.plan === 'lifetime_founder' ? 'Lifetime Plan' : subscription?.plan === 'pro_annual' ? 'Annual Plan' : 'Starter Plan';
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      {/* AUTO-APPLIED PROMO CODE CELEBRATION HERO (NEUMORPHIC SOFT UI WHITE) */}
-      <div className="p-4 sm:p-5 rounded-2xl bg-[#ebf0f7] border border-white text-slate-900 shadow-[5px_5px_12px_rgba(166,180,200,0.45),-5px_-5px_12px_#ffffff] relative overflow-hidden cursor-default select-none">
+      {/* CELEBRATION HERO BANNER (DYNAMIC PRO & TRIAL MODES) */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#ebf0f7] dark:bg-[#0c1220] border border-white dark:border-[#1e293b] text-slate-900 dark:text-slate-100 shadow-[5px_5px_12px_rgba(166,180,200,0.45),-5px_-5px_12px_#ffffff] dark:shadow-xl relative overflow-hidden cursor-default select-none">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
           <div className="flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-xl bg-sky-100/90 border border-sky-200/80 flex items-center justify-center shrink-0 text-sky-700 shadow-xs">
-              <Sparkles size={20} className="animate-pulse" />
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-xs ${
+              isProActive
+                ? 'bg-emerald-100 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-500/40 text-emerald-600 dark:text-emerald-400'
+                : 'bg-sky-100/90 dark:bg-sky-950/40 border border-sky-200/80 dark:border-sky-500/40 text-sky-700 dark:text-sky-400'
+            }`}>
+              {isProActive ? <ShieldCheck size={20} className="text-emerald-500" /> : <Sparkles size={20} className="animate-pulse" />}
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300/80 text-[10px] font-black uppercase tracking-wider">
-                  Promo Auto-Applied
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                  isProActive
+                    ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/40'
+                    : 'bg-amber-100 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 border border-amber-300/80 dark:border-amber-500/40'
+                }`}>
+                  {isProActive ? 'PRO ACTIVE' : 'SPECIAL LAUNCH PROMO'}
                 </span>
-                <span className="text-xs font-mono font-bold text-sky-700">
-                  CODE: LAUNCH500 (50% OFF)
-                </span>
+                {!isProActive ? (
+                  <span className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400">
+                    Use Code: LAUNCH500 for 50% OFF
+                  </span>
+                ) : (
+                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                    Verified Workspace
+                  </span>
+                )}
               </div>
-              <h3 className="text-base font-extrabold text-slate-900 mt-1">
-                Special Launch Offer: Full Pro Access at ৳500 / month!
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-white mt-1">
+                {isProActive
+                  ? `Your Quantrex Pro Workspace is Active (${activePlanName})`
+                  : 'Special Launch Offer: Upgrade to Quantrex Pro starting from ৳500!'}
               </h3>
-              <p className="text-xs text-slate-600 mt-0.5 font-medium">
-                Enjoy an active <strong className="text-slate-900">3-Day Free Trial</strong> with full feature access. Select any plan below to activate Pro securely via bKash or Nagad.
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
+                {isProActive
+                  ? 'You have unrestricted access to all dual-currency ledgers, client statements, and Pro tools. You can change or upgrade your plan anytime below.'
+                  : 'Enjoy your active 3-Day Free Trial with full feature access. Select any plan below to activate Pro securely via bKash or Nagad.'}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             <div className="text-right hidden sm:block">
-              <div className="text-[11px] font-semibold text-slate-500">Current Status</div>
-              <div className="text-sm font-extrabold text-emerald-700 flex items-center justify-end gap-1.5 mt-0.5">
-                {isProActive ? (subscription?.plan === 'lifetime_founder' ? 'Lifetime Plan' : subscription?.plan === 'pro_annual' ? 'Annual Plan' : 'Starter Plan') : '3-Day Trial Active'}
+              <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Current Status</div>
+              <div className={`text-sm font-extrabold flex items-center justify-end gap-1.5 mt-0.5 ${
+                isProActive ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'
+              }`}>
+                {isProActive ? activePlanName : '3-Day Free Trial Active'}
               </div>
             </div>
           </div>
