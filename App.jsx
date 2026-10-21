@@ -11644,7 +11644,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       badge: '50% OFF - Most Popular',
       popular: true,
       trialNote: '✨ 3-Day Free Trial Included',
-      btnText: 'Get Starter Plan (৳500)',
+      btnText: 'Get Starter Plan',
       features: [
         'Full Dual-Currency Ledger (BDT & USD)',
         'Unlimited Clients & Campaign Portfolios',
@@ -11663,7 +11663,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       badge: '2 Months Free',
       popular: false,
       trialNote: '✨ Best Value for Established Agencies',
-      btnText: 'Get Annual Plan (৳4,500)',
+      btnText: 'Get Annual Plan',
       features: [
         'Everything in Starter Plan',
         'Unlimited Team Members & Role Access',
@@ -11681,7 +11681,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       badge: 'Lifetime Deal',
       popular: false,
       trialNote: '💎 Pay Once, Use Forever',
-      btnText: 'Get Lifetime Plan (৳6,999)',
+      btnText: 'Get Lifetime Plan',
       features: [
         'Lifetime Access to All Current Features',
         'All Future V2 & Pro Updates Free Forever',
