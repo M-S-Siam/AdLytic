@@ -11706,7 +11706,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
             </div>
             <div>
               <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                Special Launch Offer: Choose a Subscription Plan starting from ৳500!
+                Special Offer: Starter Plan Now Only ৳500!
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
                 Enjoy your active 3-Day Free Trial with full feature access. Select any plan below to activate your subscription securely via bKash or Nagad.
