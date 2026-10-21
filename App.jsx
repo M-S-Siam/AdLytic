@@ -11697,6 +11697,44 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
+      {/* SPECIAL LAUNCH OFFER HERO BANNER */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-[#ebf0f7] dark:bg-[#0c1220] border border-white dark:border-[#1e293b] text-slate-900 dark:text-slate-100 shadow-[5px_5px_12px_rgba(166,180,200,0.45),-5px_-5px_12px_#ffffff] dark:shadow-xl relative overflow-hidden cursor-default select-none">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-xl bg-sky-100/90 dark:bg-sky-950/40 border border-sky-200/80 dark:border-sky-500/40 flex items-center justify-center shrink-0 text-sky-700 dark:text-sky-400 shadow-xs">
+              <Sparkles size={20} className="animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 border border-amber-300/80 dark:border-amber-500/40 text-[10px] font-black uppercase tracking-wider">
+                  Special Launch Promo
+                </span>
+                <span className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400">
+                  Use Code: LAUNCH500 for 50% OFF
+                </span>
+              </div>
+              <h3 className="text-base font-extrabold text-slate-900 dark:text-white mt-1">
+                Special Launch Offer: Choose a Subscription Plan starting from ৳500!
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
+                Enjoy your active 3-Day Free Trial with full feature access. Select any plan below to activate your subscription securely via bKash or Nagad.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="text-right hidden sm:block">
+              <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Current Status</div>
+              <div className={`text-sm font-extrabold flex items-center justify-end gap-1.5 mt-0.5 ${
+                isProActive ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'
+              }`}>
+                {isProActive ? activePlanName : '3-Day Free Trial Active'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* PLAN PRICING COMPARISON CARDS (UNIFIED LUXURY NEUMORPHIC SOFT UI WHITE) */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {plans.map((plan) => {
