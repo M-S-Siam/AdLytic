@@ -1522,19 +1522,19 @@ export default function AdLedgerApp() {
                 {isQuickSettingsOpen && (
                   <div
                     style={{ right: 0 }}
-                    className="absolute right-0 mt-2.5 w-64 bg-[#ebf0f7] rounded-2xl shadow-[8px_8px_24px_rgba(166,180,200,0.6),-8px_-8px_24px_#ffffff] border border-white p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
+                    className="absolute right-0 mt-2.5 w-72 bg-[#ebf0f7] dark:bg-[#0b101b] rounded-2xl shadow-xl shadow-slate-900/30 border border-white dark:border-slate-800 p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
                   >
                     {/* Active Workspace Info Header */}
-                    <div className="px-3 py-2 bg-white/70 rounded-xl mb-1.5 border border-white shadow-xs">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-[10px] shrink-0 shadow-xs">
+                    <div className="px-3 py-2.5 bg-white/80 dark:bg-slate-900/80 rounded-xl mb-3 border border-white dark:border-slate-800/80 shadow-xs">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-7 h-7 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
                           {(workspaceSettings.businessName || 'A').charAt(0).toUpperCase()}
                         </div>
-                        <div className="min-w-0">
-                          <div className="font-bold text-xs text-slate-900 truncate">
+                        <div className="min-w-0 flex-1">
+                          <div className="font-bold text-xs text-slate-900 dark:text-slate-100 truncate">
                             {workspaceSettings.businessName || 'Quantrex Workspace'}
                           </div>
-                          <div className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                          <div className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1.5 mt-0.5">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                             Active Workspace
                           </div>
@@ -1542,114 +1542,128 @@ export default function AdLedgerApp() {
                       </div>
                     </div>
 
-                    <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-200 mb-1">
+                    <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                       Quick Controls
                     </div>
 
-                    <button
-                      onClick={() => {
-                        setCurrentView('subscription');
-                        setIsQuickSettingsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-amber-50/80 text-left transition-colors group"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <Crown size={14} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-amber-800 flex items-center gap-1.5">
-                          <span>Subscriptions</span>
+                    <div className="space-y-1.5">
+                      <button
+                        onClick={() => {
+                          setCurrentView('subscription');
+                          setIsQuickSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-500 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20 group-hover:scale-105 transition-transform">
+                          <Crown size={15} className="stroke-[2.5]" />
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Upgrade, billing & invoice</div>
-                      </div>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setCurrentView('settings');
-                        setIsQuickSettingsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-sky-50/80 text-left transition-colors group"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <Settings size={14} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-sky-700">
-                          Agency Settings
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Subscriptions
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Upgrade, billing &amp; invoice
+                          </div>
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Workspace, Rates & Logo</div>
-                      </div>
-                    </button>
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        setCurrentView('team');
-                        setIsQuickSettingsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-slate-100 text-left transition-colors group"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <UsersRound size={14} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-slate-950">
-                          Team & Members
+                      <button
+                        onClick={() => {
+                          setCurrentView('settings');
+                          setIsQuickSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 group-hover:scale-105 transition-transform">
+                          <Settings size={15} className="stroke-[2.5]" />
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Manage access & roles</div>
-                      </div>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setCurrentView('reports');
-                        setIsQuickSettingsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-purple-50/80 text-left transition-colors group"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <BarChart3 size={14} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-slate-900 group-hover:text-purple-800">
-                          Audit & Reports
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Agency Settings
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Workspace, Rates &amp; Logo
+                          </div>
                         </div>
-                        <div className="text-[10px] text-slate-400 font-medium">Financial & P&L statements</div>
-                      </div>
-                    </button>
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        setCurrentView('guide');
-                        setIsQuickSettingsOpen(false);
-                      }}
-                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-emerald-50/80 text-left transition-colors group text-emerald-800"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <BookOpen size={14} className="stroke-[2.5]" />
-                      </div>
-                      <div>
-                        <div className="font-bold text-xs text-emerald-900 group-hover:text-emerald-950">
-                          User Guide & SOP
+                      <button
+                        onClick={() => {
+                          setCurrentView('team');
+                          setIsQuickSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 flex items-center justify-center shrink-0 border border-indigo-500/20 group-hover:scale-105 transition-transform">
+                          <UsersRound size={15} className="stroke-[2.5]" />
                         </div>
-                        <div className="text-[10px] text-emerald-600 font-medium">Complete manual & PDF</div>
-                      </div>
-                    </button>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Team &amp; Members
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Manage access &amp; roles
+                          </div>
+                        </div>
+                      </button>
 
-                    <div className="my-1 border-t border-slate-200" />
+                      <button
+                        onClick={() => {
+                          setCurrentView('reports');
+                          setIsQuickSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-500 dark:text-purple-400 flex items-center justify-center shrink-0 border border-purple-500/20 group-hover:scale-105 transition-transform">
+                          <BarChart3 size={15} className="stroke-[2.5]" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            Audit &amp; Reports
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Financial &amp; P&amp;L statements
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setCurrentView('guide');
+                          setIsQuickSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20 group-hover:scale-105 transition-transform">
+                          <BookOpen size={15} className="stroke-[2.5]" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
+                            User Guide &amp; SOP
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Complete manual &amp; PDF
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+
+                    <div className="my-2.5 border-t border-slate-200/80 dark:border-slate-800" />
 
                     <button
                       onClick={handleQuickLogOut}
-                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-rose-50 text-left transition-colors group text-rose-600"
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-rose-500/10 dark:hover:bg-rose-500/15 cursor-pointer"
                     >
-                      <div className="w-7 h-7 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                        <LogOut size={14} className="stroke-[2.5]" />
+                      <div className="w-8 h-8 rounded-lg bg-rose-500/10 text-rose-500 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/20 group-hover:scale-105 transition-transform">
+                        <LogOut size={15} className="stroke-[2.5]" />
                       </div>
-                      <div>
-                        <div className="font-bold text-xs text-rose-700 group-hover:text-rose-800">
+                      <div className="min-w-0">
+                        <div className="font-semibold text-xs text-rose-600 dark:text-rose-400 group-hover:text-rose-700 dark:group-hover:text-rose-300 transition-colors">
                           Log Out
                         </div>
-                        <div className="text-[10px] text-rose-400 font-medium">End current session</div>
+                        <div className="text-[10.5px] text-rose-400/80 dark:text-rose-400/70 font-normal leading-tight mt-0.5">
+                          End current session
+                        </div>
                       </div>
                     </button>
                   </div>
