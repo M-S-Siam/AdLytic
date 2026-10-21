@@ -11562,19 +11562,19 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
         <title>Payment Receipt - ${receipt.invoiceNumber}</title>
         <style>
           body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; color: #0f172a; background: #fff; }
-          .invoice-box { max-width: 650px; margin: auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-          .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #0284c7; padding-bottom: 20px; margin-bottom: 24px; }
-          .company-name { font-size: 22px; font-weight: 900; color: #0284c7; letter-spacing: -0.5px; }
-          .status-badge { display: inline-block; padding: 4px 12px; border-radius: 9999px; background: #dcfce7; color: #166534; font-size: 11px; font-weight: 800; text-transform: uppercase; margin-top: 6px; }
+          .invoice-box { max-width: 650px; margin: auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 36px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+          .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1.5px solid #0f172a; padding-bottom: 20px; margin-bottom: 24px; }
+          .company-name { font-size: 20px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px; }
+          .status-badge { display: inline-block; padding: 3px 10px; border-radius: 9999px; background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-top: 6px; }
           .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; font-size: 13px; }
           .label { color: #64748b; font-size: 11px; text-transform: uppercase; font-weight: 700; margin-bottom: 2px; }
           .value { font-weight: 700; color: #0f172a; }
           .table { width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 13px; }
-          .table th { background: #f8fafc; padding: 10px 12px; text-align: left; font-weight: 700; color: #475569; border-bottom: 1px solid #e2e8f0; }
-          .table td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
-          .total-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; }
-          .grand-total { border-top: 2px solid #0f172a; padding-top: 10px; margin-top: 8px; font-size: 16px; font-weight: 900; color: #0f172a; }
-          .footer { text-align: center; margin-top: 32px; font-size: 11px; color: #94a3b8; border-top: 1px solid #e2e8f0; padding-top: 16px; }
+          .table th { background: #f8fafc; padding: 10px 12px; text-align: left; font-weight: 700; color: #475569; border-bottom: 1px solid #e2e8f0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; }
+          .table td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+          .total-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 13px; color: #475569; }
+          .grand-total { border-top: 1.5px solid #0f172a; padding-top: 10px; margin-top: 8px; font-size: 16px; font-weight: 900; color: #0f172a; }
+          .footer { text-align: center; margin-top: 32px; font-size: 11px; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 16px; }
         </style>
       </head>
       <body>
@@ -11614,23 +11614,23 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
             <tbody>
               <tr>
                 <td>
-                  <strong>${receipt.planName}</strong>
-                  ${receipt.promoCode ? `<br><span style="display:inline-block;margin-top:4px;padding:2px 8px;border-radius:4px;background:#dcfce7;color:#166534;font-size:10px;font-weight:800;border:1px solid #bbf7d0;">✓ Promo Code "${receipt.promoCode}" Applied (-${receipt.promoPercent}% OFF)</span>` : ''}
+                  <strong style="color: #0f172a;">${receipt.planName}</strong>
+                  ${receipt.promoCode ? `<br><span style="display:inline-block;margin-top:4px;padding:2px 8px;border-radius:4px;background:#f0fdf4;color:#15803d;font-size:10px;font-weight:700;border:1px solid #bbf7d0;">✓ Promo Code "${receipt.promoCode}" Applied (-${receipt.promoPercent}% OFF)</span>` : ''}
                   <br><span style="font-size: 11px; color: #64748b;">Full Pro Workspace Telemetry, FX Wallet & Multi-Client Ledger</span>
                 </td>
-                <td>${receipt.paymentMethod}</td>
-                <td style="text-align: right; font-weight: 800;">
-                  ${receipt.promoCode ? `<div style="font-size: 11px; color: #94a3b8; text-decoration: line-through; font-weight: 600;">৳${(receipt.baseAmount || receipt.amount).toLocaleString()}</div>` : ''}
+                <td style="color: #334155;">${receipt.paymentMethod}</td>
+                <td style="text-align: right; font-weight: 800; color: #0f172a;">
+                  ${receipt.promoCode ? `<div style="font-size: 11px; color: #94a3b8; text-decoration: line-through; font-weight: 500;">৳${(receipt.baseAmount || receipt.amount).toLocaleString()}</div>` : ''}
                   ৳${receipt.amount.toLocaleString()}
                 </td>
               </tr>
             </tbody>
           </table>
           <div style="max-width: 280px; margin-left: auto;">
-            <div class="total-row"><span>Plan Base Price:</span><span>৳${(receipt.baseAmount || receipt.amount).toLocaleString()}</span></div>
-            ${receipt.promoCode ? `<div class="total-row" style="color: #166534; font-weight: 700;"><span>Promo Discount (${receipt.promoCode} -${receipt.promoPercent}%):</span><span>- ৳${receipt.discountAmount.toLocaleString()}</span></div>` : ''}
-            <div class="total-row"><span>Govt. 15% VAT:</span><span style="color: #166534; font-weight: 700;">Promo Waived (৳0)</span></div>
-            <div class="total-row grand-total"><span>Total Paid:</span><span style="color: #0284c7;">৳${receipt.amount.toLocaleString()}</span></div>
+            <div class="total-row"><span>Plan Base Price:</span><span style="font-weight: 600; color: #0f172a;">৳${(receipt.baseAmount || receipt.amount).toLocaleString()}</span></div>
+            ${receipt.promoCode ? `<div class="total-row" style="color: #15803d; font-weight: 600;"><span>Promo Discount (${receipt.promoCode} -${receipt.promoPercent}%):</span><span>- ৳${receipt.discountAmount.toLocaleString()}</span></div>` : ''}
+            <div class="total-row"><span>Govt. 15% VAT:</span><span style="color: #64748b; font-weight: 500;">Waived (৳0)</span></div>
+            <div class="total-row grand-total"><span>Total Paid:</span><span style="color: #0f172a; font-size: 18px; font-weight: 900;">৳${receipt.amount.toLocaleString()}</span></div>
           </div>
           <div class="footer">
             Quantrex Technologies Inc. · Computer Generated Tax Invoice · No Signature Required
@@ -11647,7 +11647,6 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       printWin.print();
     }, 400);
   };
-
   const plans = [
     {
       id: 'starter_monthly',
@@ -12651,12 +12650,12 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                 <div className="p-4 rounded-xl bg-[#090d16] border border-[#1e293b] text-left space-y-2 text-xs font-mono">
                   <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
                     <span className="text-slate-400 font-sans">Transaction ID:</span>
-                    <span className="font-bold text-white flex items-center gap-1.5">
+                    <span className="font-bold text-slate-100 flex items-center gap-1.5">
                       {completedReceipt.trxId}
                       <button
                         type="button"
                         onClick={() => navigator.clipboard?.writeText(completedReceipt.trxId)}
-                        className="text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
+                        className="text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
                         title="Copy TrxID"
                       >
                         <Copy size={12} />
@@ -12673,32 +12672,32 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
 
                   <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
                     <span className="text-slate-400 font-sans">Payment Method:</span>
-                    <span className="font-bold text-emerald-400">{completedReceipt.paymentMethod}</span>
+                    <span className="font-semibold text-slate-200">{completedReceipt.paymentMethod}</span>
                   </div>
 
                   <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
                     <span className="text-slate-400 font-sans">Account / Reference:</span>
-                    <span className="font-bold text-white">{completedReceipt.accountNumber}</span>
+                    <span className="font-bold text-slate-200">{completedReceipt.accountNumber}</span>
                   </div>
 
                   {completedReceipt.promoCode && (
                     <>
                       <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
                         <span className="text-slate-400 font-sans">Plan Base Price:</span>
-                        <span className="font-semibold text-slate-400 line-through">৳{completedReceipt.baseAmount?.toLocaleString()}</span>
+                        <span className="font-semibold text-slate-500 line-through">৳{completedReceipt.baseAmount?.toLocaleString()}</span>
                       </div>
-                      <div className="flex justify-between items-center border-b border-[#1e293b] pb-2 text-emerald-400">
-                        <span className="font-sans flex items-center gap-1">
+                      <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
+                        <span className="text-slate-400 font-sans flex items-center gap-1">
                           Promo Discount ({completedReceipt.promoCode}):
                         </span>
-                        <span className="font-bold">- ৳{completedReceipt.discountAmount?.toLocaleString()} ({completedReceipt.promoPercent}% OFF)</span>
+                        <span className="font-bold text-emerald-400">- ৳{completedReceipt.discountAmount?.toLocaleString()} ({completedReceipt.promoPercent}% OFF)</span>
                       </div>
                     </>
                   )}
 
                   <div className="flex justify-between items-center border-b border-[#1e293b] pb-2">
                     <span className="text-slate-300 font-sans font-bold">Total Amount Paid:</span>
-                    <span className="font-black text-emerald-400 text-sm">৳{completedReceipt.amount.toLocaleString()}</span>
+                    <span className="font-black text-white text-sm">৳{completedReceipt.amount.toLocaleString()}</span>
                   </div>
 
                   <div className="flex justify-between items-center">
