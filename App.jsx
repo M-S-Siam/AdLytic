@@ -11855,75 +11855,79 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
       {checkoutPlan && typeof document !== "undefined" && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200"
+          onClick={() => setCheckoutPlan(null)}
         >
           <div
             className="relative w-full max-w-2xl bg-[#090d16] text-slate-100 rounded-3xl border border-[#1e293b] shadow-2xl p-5 sm:p-7 space-y-6 my-auto font-sans"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Top Close Button (X) */}
-            <button
-              type="button"
-              onClick={() => setCheckoutPlan(null)}
-              className="absolute top-4 right-4 sm:top-5 sm:right-5 w-8 h-8 rounded-full bg-[#1e293b]/80 hover:bg-[#334155] text-slate-400 hover:text-white flex items-center justify-center transition-all cursor-pointer z-20 shadow-xs"
-              title="Close checkout"
-            >
-              <X size={16} />
-            </button>
-            
-            {/* 1. TOP 3-STEP PROGRESS STEPPER */}
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#0d1322] border border-[#1e293b] flex items-center justify-between text-xs font-medium select-none">
-              {/* Step 1: Plan */}
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0">
-                  <Check size={14} className="stroke-[3]" />
-                </div>
-                <div>
-                  <div className="font-bold text-white text-xs leading-none">Plan</div>
-                  <div className="text-[10px] text-slate-400 mt-0.5 hidden sm:block">Choose your plan</div>
-                </div>
-              </div>
-
-              {/* Connector 1 */}
-              <div className="flex-1 h-[2px] mx-3 sm:mx-4 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full" />
-
-              {/* Step 2: Payment */}
-              <div className="flex items-center gap-2.5">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 transition-all ${
-                  checkoutStep === 'done'
-                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
-                    : 'bg-blue-600 text-white shadow-md shadow-blue-600/40 ring-2 ring-blue-400/30'
-                }`}>
-                  {checkoutStep === 'done' ? <Check size={14} className="stroke-[3]" /> : '2'}
-                </div>
-                <div>
-                  <div className={`font-bold text-xs leading-none ${checkoutStep === 'done' ? 'text-white' : 'text-blue-400'}`}>
-                    Payment
+            {/* 1. TOP ROW: 3-STEP PROGRESS STEPPER & MODAL CLOSE BUTTON */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              {/* Progress Stepper Card */}
+              <div className="flex-1 p-3.5 sm:p-4 rounded-2xl bg-[#0d1322] border border-[#1e293b] flex items-center justify-between text-xs font-medium select-none">
+                {/* Step 1: Plan */}
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0">
+                    <Check size={14} className="stroke-[3]" />
                   </div>
-                  <div className="text-[10px] text-slate-400 mt-0.5 hidden sm:block">Complete payment</div>
-                </div>
-              </div>
-
-              {/* Connector 2 */}
-              <div className={`flex-1 h-[2px] mx-3 sm:mx-4 rounded-full transition-all ${
-                checkoutStep === 'done' ? 'bg-gradient-to-r from-blue-600 to-emerald-500' : 'bg-[#1e293b]'
-              }`} />
-
-              {/* Step 3: Done */}
-              <div className="flex items-center gap-2.5">
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all ${
-                  checkoutStep === 'done'
-                    ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/40 ring-2 ring-emerald-400/30'
-                    : 'bg-[#151c2e] text-slate-500 border border-[#1e293b]'
-                }`}>
-                  {checkoutStep === 'done' ? <Check size={14} className="stroke-[3]" /> : '3'}
-                </div>
-                <div>
-                  <div className={`font-bold text-xs leading-none ${checkoutStep === 'done' ? 'text-emerald-400' : 'text-slate-400'}`}>
-                    Done
+                  <div>
+                    <div className="font-bold text-white text-xs leading-none">Plan</div>
+                    <div className="text-[10px] text-slate-400 mt-0.5 hidden sm:block">Choose your plan</div>
                   </div>
-                  <div className="text-[10px] text-slate-500 mt-0.5 hidden sm:block">Start using Quantrex</div>
+                </div>
+
+                {/* Connector 1 */}
+                <div className="flex-1 h-[2px] mx-3 sm:mx-4 bg-gradient-to-r from-emerald-500 to-blue-600 rounded-full" />
+
+                {/* Step 2: Payment */}
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center font-black text-xs shrink-0 transition-all ${
+                    checkoutStep === 'done'
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                      : 'bg-blue-600 text-white shadow-md shadow-blue-600/40 ring-2 ring-blue-400/30'
+                  }`}>
+                    {checkoutStep === 'done' ? <Check size={14} className="stroke-[3]" /> : '2'}
+                  </div>
+                  <div>
+                    <div className={`font-bold text-xs leading-none ${checkoutStep === 'done' ? 'text-white' : 'text-blue-400'}`}>
+                      Payment
+                    </div>
+                    <div className="text-[10px] text-slate-400 mt-0.5 hidden sm:block">Complete payment</div>
+                  </div>
+                </div>
+
+                {/* Connector 2 */}
+                <div className={`flex-1 h-[2px] mx-3 sm:mx-4 rounded-full transition-all ${
+                  checkoutStep === 'done' ? 'bg-gradient-to-r from-blue-600 to-emerald-500' : 'bg-[#1e293b]'
+                }`} />
+
+                {/* Step 3: Done */}
+                <div className="flex items-center gap-2.5">
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shrink-0 transition-all ${
+                    checkoutStep === 'done'
+                      ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/40 ring-2 ring-emerald-400/30'
+                      : 'bg-[#151c2e] text-slate-500 border border-[#1e293b]'
+                  }`}>
+                    {checkoutStep === 'done' ? <Check size={14} className="stroke-[3]" /> : '3'}
+                  </div>
+                  <div>
+                    <div className={`font-bold text-xs leading-none ${checkoutStep === 'done' ? 'text-emerald-400' : 'text-slate-400'}`}>
+                      Done
+                    </div>
+                    <div className="text-[10px] text-slate-500 mt-0.5 hidden sm:block">Start using Quantrex</div>
+                  </div>
                 </div>
               </div>
+
+              {/* Close Button (X) - Cleanly separated, never overlapping */}
+              <button
+                type="button"
+                onClick={() => setCheckoutPlan(null)}
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#0d1322] border border-[#1e293b] hover:border-slate-500 hover:bg-[#1a233a] hover:text-white text-slate-400 flex items-center justify-center transition-all cursor-pointer shrink-0 shadow-sm group"
+                title="Close checkout"
+              >
+                <X size={18} className="group-hover:scale-110 transition-transform" />
+              </button>
             </div>
 
             {/* 2. HEADING & SECURITY BADGE */}
