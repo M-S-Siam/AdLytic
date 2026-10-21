@@ -11715,7 +11715,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                     ? 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/40'
                     : 'bg-amber-100 dark:bg-amber-500/20 text-amber-900 dark:text-amber-300 border border-amber-300/80 dark:border-amber-500/40'
                 }`}>
-                  {isProActive ? 'PRO ACTIVE' : 'SPECIAL LAUNCH PROMO'}
+                  {isProActive ? `${activePlanName} Active` : 'SPECIAL LAUNCH PROMO'}
                 </span>
                 {!isProActive ? (
                   <span className="text-xs font-mono font-bold text-sky-700 dark:text-sky-400">
@@ -11729,13 +11729,13 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
               </div>
               <h3 className="text-base font-extrabold text-slate-900 dark:text-white mt-1">
                 {isProActive
-                  ? `Your Quantrex Pro Workspace is Active (${activePlanName})`
-                  : 'Special Launch Offer: Upgrade to Quantrex Pro starting from ৳500!'}
+                  ? `Your ${activePlanName} is Currently Active`
+                  : 'Special Launch Offer: Choose a Subscription Plan starting from ৳500!'}
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
                 {isProActive
-                  ? 'You have unrestricted access to all dual-currency ledgers, client statements, and Pro tools. You can change or upgrade your plan anytime below.'
-                  : 'Enjoy your active 3-Day Free Trial with full feature access. Select any plan below to activate Pro securely via bKash or Nagad.'}
+                  ? 'You have unrestricted access to all dual-currency ledgers, client statements, and workspace features. You can switch or renew your plan anytime below.'
+                  : 'Enjoy your active 3-Day Free Trial with full feature access. Select any plan below to activate your subscription securely via bKash or Nagad.'}
               </p>
             </div>
           </div>
@@ -11957,7 +11957,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                 <p className="text-xs text-slate-400 mt-0.5">
                   {checkoutStep === 'done'
                     ? 'Your workspace has been successfully upgraded.'
-                    : 'Choose a payment method to activate your Pro Plan.'}
+                    : `Choose a payment method to activate your ${checkoutPlan.name}.`}
                 </p>
               </div>
 
@@ -12278,7 +12278,7 @@ function BillingPlansView({ subscription, onUpdate, businessName, onNavigate }) 
                             4
                           </div>
                           <span>
-                            Enter your mobile number &amp; TrxID below for instant Pro activation.
+                            Enter your mobile number &amp; TrxID below for instant plan activation.
                           </span>
                         </div>
                       </div>
