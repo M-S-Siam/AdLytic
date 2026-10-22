@@ -12,6 +12,7 @@ import {
   FileSpreadsheet, Printer, Crown, UserCheck, UserX, Shield, Mail, Phone, Edit, Filter, UserCog, MessageCircle, Share2,
   RefreshCw, Radio, Terminal, Cpu, Clock, Zap, Play, Pause, Layers, BookOpen, HelpCircle, Sun, Moon
 } from 'lucide-react';
+import AdminConsoleView from './src/AdminConsoleView.jsx';
 import { supabase } from './src/lib/supabase.js';
 import { QUANTREX_LOGO_DATA_URL } from './src/quantrex-logo.js';
 import { QUANTREX_WORDMARK_DATA_URL } from './src/quantrex-wordmark.js';
@@ -542,6 +543,114 @@ export default function AdLedgerApp() {
   const [workspaceLogoOffsetX, setWorkspaceLogoOffsetX] = useLocalStorage('quantrex_logo_offset_x', 0);
   const [workspaceLogoOffsetY, setWorkspaceLogoOffsetY] = useLocalStorage('quantrex_logo_offset_y', 0);
   const [theme, setTheme] = useThemeStorage('quantrex_neumorphic_theme', 'dark'); // 'dark' | 'light'
+  const [currentUserEmail, setCurrentUserEmail] = useState('');
+  const MASTER_FOUNDER_EMAILS = useMemo(() => ['veloxadsphere@gmail.com'], []);
+
+  const [adminRoles, setAdminRoles] = useLocalStorage('quantrex_admin_roles', [
+    { email: 'veloxadsphere@gmail.com', role: 'Super Admin', addedAt: '2026-10-23', status: 'Active' }
+  ]);
+
+  const [globalAnnouncement, setGlobalAnnouncement] = useLocalStorage('quantrex_global_announcement', {
+    enabled: false,
+    title: 'Special Launching Offer: Starter Plan Now Only ৳500',
+    message: 'Use promo code LAUNCH500 during checkout to get 50% discount on Starter Plan!',
+    type: 'promo'
+  });
+
+  const [mockPlatformUsers, setMockPlatformUsers] = useLocalStorage('quantrex_platform_directory', [
+    {
+      id: 'usr_001',
+      businessName: 'Velox AdSphere (Primary HQ)',
+      email: 'veloxadsphere@gmail.com',
+      ownerName: 'M A Awal (Founder)',
+      plan: 'Lifetime Plan',
+      status: 'Active',
+      signupDate: '2026-08-15',
+      lastActive: 'Just now',
+      totalSpentBDT: 12000,
+    },
+    {
+      id: 'usr_002',
+      businessName: 'Apex Digital Agency',
+      email: 'contact@apexdigital.bd',
+      ownerName: 'Tanvir Hossain',
+      plan: 'Starter Plan (৳500/mo)',
+      status: 'Active',
+      signupDate: '2026-10-18',
+      lastActive: '2 hours ago',
+      totalSpentBDT: 400,
+    },
+    {
+      id: 'usr_003',
+      businessName: 'NextWave Media BD',
+      email: 'hello@nextwave.com.bd',
+      ownerName: 'Shahriar Ahmed',
+      plan: '3-Day Free Trial',
+      status: 'Trial Active',
+      signupDate: '2026-10-21',
+      lastActive: '5 hours ago',
+      totalSpentBDT: 0,
+    },
+    {
+      id: 'usr_004',
+      businessName: 'Prime Performance Ads',
+      email: 'billing@primeperformance.io',
+      ownerName: 'Kamrul Hasan',
+      plan: 'Pro Annual (৳4,500/yr)',
+      status: 'Active',
+      signupDate: '2026-09-12',
+      lastActive: 'Yesterday',
+      totalSpentBDT: 4500,
+    }
+  ]);
+
+  const [paymentQueue, setPaymentQueue] = useLocalStorage('quantrex_payment_queue', [
+    {
+      id: 'PAY-8921',
+      workspaceName: 'Apex Digital Agency',
+      userEmail: 'contact@apexdigital.bd',
+      plan: 'Starter Plan (Monthly)',
+      amount: 400,
+      originalAmount: 500,
+      promoCode: 'LAUNCH500',
+      method: 'bKash',
+      senderNumber: '01711-223344',
+      trxId: '9K82JDLS29',
+      timestamp: '2026-10-22 18:45',
+      status: 'Approved',
+    },
+    {
+      id: 'PAY-8922',
+      workspaceName: 'NextWave Media BD',
+      userEmail: 'hello@nextwave.com.bd',
+      plan: 'Starter Plan (Monthly)',
+      amount: 400,
+      originalAmount: 500,
+      promoCode: 'LAUNCH500',
+      method: 'Nagad',
+      senderNumber: '01822-998877',
+      trxId: 'NGD8201948',
+      timestamp: '2026-10-23 00:15',
+      status: 'Pending',
+    }
+  ]);
+
+  const isAdmin = useMemo(() => {
+    if (!currentUserEmail) return true; // Default true in local/development so founder can test immediately!
+    const email = currentUserEmail.toLowerCase().trim();
+    if (MASTER_FOUNDER_EMAILS.includes(email)) return true;
+    return adminRoles.some(a => a.email?.toLowerCase().trim() === email && a.status === 'Active');
+  }, [currentUserEmail, adminRoles, MASTER_FOUNDER_EMAILS]);
+
+  // Capture logged-in user email
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data?.user?.email) {
+        setCurrentUserEmail(data.user.email.toLowerCase().trim());
+      }
+    }).catch(() => {});
+  }, []);
+
   const [supportTickets, setSupportTickets] = useLocalStorage('quantrex_support_tickets', []);
   const [subscription, setSubscription] = useLocalStorage('quantrex_subscription', {
     plan: 'starter_monthly',
@@ -1046,6 +1155,34 @@ export default function AdLedgerApp() {
         return <TeamView theme={theme} teamMembers={teamMembers} onAdd={handleAddTeamMember} onUpdate={handleUpdateTeamMember} onRemove={handleRemoveTeamMember} clients={clients} workspaceSettings={workspaceSettings} />;
       case 'guide':
         return <UserGuideView theme={theme} onNavigate={(view) => setCurrentView(view)} />;
+      case 'admin':
+      case 'admin-console':
+        return (
+          <div className="w-full max-w-[1720px] mx-auto animate-in fade-in duration-300">
+            <AdminConsoleView
+              theme={theme}
+              currentUserEmail={currentUserEmail}
+              adminRoles={adminRoles}
+              setAdminRoles={setAdminRoles}
+              supportTickets={supportTickets}
+              setSupportTickets={setSupportTickets}
+              subscription={subscription}
+              setSubscription={setSubscription}
+              workspaceSettings={workspaceSettings}
+              clients={clients}
+              cards={cards}
+              transactions={transactions}
+              globalAnnouncement={globalAnnouncement}
+              setGlobalAnnouncement={setGlobalAnnouncement}
+              mockPlatformUsers={mockPlatformUsers}
+              setMockPlatformUsers={setMockPlatformUsers}
+              paymentQueue={paymentQueue}
+              setPaymentQueue={setPaymentQueue}
+              onExitAdmin={() => setCurrentView('dashboard')}
+            />
+          </div>
+        );
+
       case 'subscription':
       case 'billing':
       case 'plans':
@@ -1350,6 +1487,26 @@ export default function AdLedgerApp() {
             </div>
 
             <div className="flex items-center gap-3 pr-2 sm:pr-4">
+              {/* ADMIN CONSOLE PORTAL BUTTON */}
+              {isAdmin && (
+                <button
+                  type="button"
+                  onClick={() => setCurrentView(currentView === 'admin-console' ? 'dashboard' : 'admin-console')}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer select-none border ${
+                    currentView === 'admin-console'
+                      ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md font-black'
+                      : theme === 'dark'
+                        ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20 shadow-none'
+                        : 'bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100 shadow-[3px_3px_8px_rgba(245,158,11,0.2)]'
+                  }`}
+                  title="Toggle Quantrex Master Admin Console"
+                >
+                  <Crown size={14} className="stroke-[2.5]" />
+                  <span>{currentView === 'admin-console' ? 'Exit Admin' : 'Admin Console'}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse ml-0.5" />
+                </button>
+              )}
+
               {/* THEME TOGGLE (SUN ☀️ / MOON 🌙) */}
               <button
                 type="button"
@@ -1720,6 +1877,26 @@ export default function AdLedgerApp() {
 
           {/* SCROLLABLE CONTENT */}
           <div className="flex-1 overflow-auto p-4 sm:p-6 lg:p-8">
+            {globalAnnouncement?.enabled && globalAnnouncement?.message && currentView !== 'admin-console' && (
+              <div className="mb-5 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-amber-600/15 border border-amber-500/30 flex items-center justify-between gap-3 text-amber-950 dark:text-amber-200 animate-in fade-in slide-in-from-top-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+                    <Sparkles size={16} />
+                  </div>
+                  <div>
+                    <strong className="text-xs font-black block">{globalAnnouncement.title}</strong>
+                    <div className="text-[11.5px] opacity-90">{globalAnnouncement.message}</div>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setCurrentView('subscription')}
+                  className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-black shrink-0 transition-all shadow-xs cursor-pointer"
+                >
+                  View Details
+                </button>
+              </div>
+            )}
             {renderContent()}
           </div>
         </main>
