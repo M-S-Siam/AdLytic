@@ -15951,12 +15951,12 @@ function SupportDeskModal({
       {/* TOP DIRECT CHANNELS CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {/* Email Support Card */}
-        <div className="p-3.5 rounded-2xl bg-[#f4f7fb] dark:bg-[#0e1524] border border-slate-200/80 dark:border-slate-800/80 flex items-start gap-3 relative overflow-hidden group">
-          <div className="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 shadow-xs">
-            <Mail size={17} className="stroke-[2.5]" />
+        <div className="p-3.5 rounded-2xl bg-[#f4f7fb] dark:bg-[#0e1524] border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3.5 relative overflow-hidden group">
+          <div className="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 shadow-xs">
+            <Mail size={18} className="stroke-[2.5]" />
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center justify-between">
+          <div className="min-w-0 flex-1 flex flex-col justify-between">
+            <div className="flex items-center justify-between h-5">
               <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
                 Official Support Email
               </span>
@@ -15970,53 +15970,51 @@ function SupportDeskModal({
                 {copiedEmail ? 'Copied' : 'Copy'}
               </button>
             </div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5 select-all">
+            <div className="h-5 flex items-center text-xs font-bold text-slate-900 dark:text-white truncate select-all mt-0.5">
               {SUPPORT_EMAIL}
             </div>
-            <button
-              type="button"
-              onClick={handleDirectEmail}
-              className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[10.5px] font-bold shadow-xs transition-all cursor-pointer"
-            >
-              <ExternalLink size={11} />
-              <span>Compose Email</span>
-            </button>
+            <div className="mt-2.5">
+              <button
+                type="button"
+                onClick={handleDirectEmail}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[11px] font-bold shadow-xs transition-all cursor-pointer"
+              >
+                <ExternalLink size={12} />
+                <span>Compose Email</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* User Manual & SOP Card */}
-        <div className="p-3.5 rounded-2xl bg-[#f4f7fb] dark:bg-[#0e1524] border border-slate-200/80 dark:border-slate-800/80 flex items-start gap-3 relative overflow-hidden group">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20 shadow-xs">
-            <BookOpen size={17} className="stroke-[2.5]" />
+        <div className="p-3.5 rounded-2xl bg-[#f4f7fb] dark:bg-[#0e1524] border border-slate-200/80 dark:border-slate-800/80 flex items-center gap-3.5 relative overflow-hidden group">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20 shadow-xs">
+            <BookOpen size={18} className="stroke-[2.5]" />
           </div>
-          <div className="min-w-0 flex-1">
-            <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
-              Interactive Documentation
-            </span>
-            <div className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5">
+          <div className="min-w-0 flex-1 flex flex-col justify-between">
+            <div className="flex items-center justify-between h-5">
+              <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+                Interactive Documentation
+              </span>
+              <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                SOP Guide
+              </span>
+            </div>
+            <div className="h-5 flex items-center text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5">
               Quantrex SOP &amp; User Manual
             </div>
-            <button
-              type="button"
-              onClick={onOpenGuide}
-              className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 text-[10.5px] font-bold shadow-xs transition-all cursor-pointer border border-slate-300/60 dark:border-slate-700/60"
-            >
-              <BookOpen size={11} />
-              <span>Open User Guide</span>
-            </button>
+            <div className="mt-2.5">
+              <button
+                type="button"
+                onClick={onOpenGuide}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold shadow-xs transition-all cursor-pointer"
+              >
+                <BookOpen size={12} />
+                <span>Open User Guide</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* SUPPORT SLA STATUS BANNER */}
-      <div className="px-3.5 py-2 rounded-xl bg-emerald-500/10 dark:bg-emerald-950/20 border border-emerald-500/20 flex items-center justify-between text-xs text-emerald-700 dark:text-emerald-300">
-        <div className="flex items-center gap-2 font-medium text-[11.5px]">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-          <span>Support Desk Status: <strong>Online</strong> (10:00 AM – 11:00 PM BST)</span>
-        </div>
-        <span className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold hidden sm:inline">
-          Average response: &lt; 2-4 hours
-        </span>
       </div>
 
       {/* TAB NAVIGATION: SUBMIT TICKET VS MY TICKETS */}
