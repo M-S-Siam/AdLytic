@@ -1378,16 +1378,14 @@ export default function AdLedgerApp() {
               <button
                 type="button"
                 onClick={() => setActiveModal('support')}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer select-none border ${
+                className={`inline-flex items-center justify-center px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer select-none border ${
                   theme === 'dark'
                     ? 'bg-[#090c12] border-white/10 text-sky-400 hover:text-sky-300 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.8),inset_-1px_-1px_3px_rgba(255,255,255,0.05)] hover:border-sky-500/40'
                     : 'bg-[#ebf0f7] border-white text-slate-700 shadow-[3px_3px_8px_rgba(166,180,200,0.45),-3px_-3px_8px_#ffffff] hover:text-sky-600 active:scale-95'
                 }`}
                 title="Quantrex Help & Support Desk"
               >
-                <HelpCircle size={14} className="text-sky-500 shrink-0" />
-                <span className="hidden sm:inline font-extrabold text-[11px]">Support</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-0.5" />
+                <span className="font-extrabold text-[11px]">Support</span>
               </button>
 
               {/* SUBSCRIPTION & 3-DAY TRIAL STATUS PILL */}
