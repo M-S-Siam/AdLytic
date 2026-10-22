@@ -15992,12 +15992,9 @@ function SupportDeskModal({
             <BookOpen size={18} className="stroke-[2.5]" />
           </div>
           <div className="min-w-0 flex-1 flex flex-col justify-between">
-            <div className="flex items-center justify-between h-5">
-              <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+            <div className="flex items-center h-5">
+              <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 truncate">
                 Interactive Documentation
-              </span>
-              <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
-                SOP Guide
               </span>
             </div>
             <div className="h-5 flex items-center text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5">
