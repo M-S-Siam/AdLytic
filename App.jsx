@@ -542,6 +542,7 @@ export default function AdLedgerApp() {
   const [workspaceLogoOffsetX, setWorkspaceLogoOffsetX] = useLocalStorage('quantrex_logo_offset_x', 0);
   const [workspaceLogoOffsetY, setWorkspaceLogoOffsetY] = useLocalStorage('quantrex_logo_offset_y', 0);
   const [theme, setTheme] = useThemeStorage('quantrex_neumorphic_theme', 'dark'); // 'dark' | 'light'
+  const [supportTickets, setSupportTickets] = useLocalStorage('quantrex_support_tickets', []);
   const [subscription, setSubscription] = useLocalStorage('quantrex_subscription', {
     plan: 'starter_monthly',
     planName: 'Starter Plan',
@@ -1373,6 +1374,22 @@ export default function AdLedgerApp() {
                 )}
               </button>
 
+              {/* SUPPORT & HELPDESK BUTTON */}
+              <button
+                type="button"
+                onClick={() => setActiveModal('support')}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer select-none border ${
+                  theme === 'dark'
+                    ? 'bg-[#090c12] border-white/10 text-sky-400 hover:text-sky-300 shadow-[inset_2px_2px_5px_rgba(0,0,0,0.8),inset_-1px_-1px_3px_rgba(255,255,255,0.05)] hover:border-sky-500/40'
+                    : 'bg-[#ebf0f7] border-white text-slate-700 shadow-[3px_3px_8px_rgba(166,180,200,0.45),-3px_-3px_8px_#ffffff] hover:text-sky-600 active:scale-95'
+                }`}
+                title="Quantrex Help & Support Desk"
+              >
+                <HelpCircle size={14} className="text-sky-500 shrink-0" />
+                <span className="hidden sm:inline font-extrabold text-[11px]">Support</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-0.5" />
+              </button>
+
               {/* SUBSCRIPTION & 3-DAY TRIAL STATUS PILL */}
               <button
                 onClick={() => setCurrentView('subscription')}
@@ -1656,6 +1673,27 @@ export default function AdLedgerApp() {
                           </div>
                         </div>
                       </button>
+
+                      <button
+                        onClick={() => {
+                          setActiveModal('support');
+                          setIsQuickSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-all duration-150 group bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-800/60 cursor-pointer"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 group-hover:scale-105 transition-transform">
+                          <HelpCircle size={15} className="stroke-[2.5]" />
+                        </div>
+                        <div className="min-w-0">
+                          <div className="font-semibold text-xs text-slate-800 dark:text-slate-100 group-hover:text-slate-950 dark:group-hover:text-white transition-colors flex items-center gap-1.5">
+                            Help &amp; Support Desk
+                            <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-600 dark:text-sky-400">Live</span>
+                          </div>
+                          <div className="text-[10.5px] text-slate-400 font-normal leading-tight mt-0.5">
+                            Submit ticket &amp; email support
+                          </div>
+                        </div>
+                      </button>
                     </div>
 
                     <div className="my-2.5 border-t border-slate-200/80 dark:border-slate-800" />
@@ -1750,6 +1788,23 @@ export default function AdLedgerApp() {
               client={selectedClient}
               transactions={transactions}
               metrics={metrics}
+            />
+          </Modal>
+        )}
+
+        {activeModal === 'support' && (
+          <Modal title="Quantrex Help & Support Desk" onClose={() => setActiveModal(null)} width="max-w-2xl">
+            <SupportDeskModal
+              workspaceSettings={workspaceSettings}
+              subscription={subscription}
+              theme={theme}
+              supportTickets={supportTickets}
+              setSupportTickets={setSupportTickets}
+              onClose={() => setActiveModal(null)}
+              onOpenGuide={() => {
+                setActiveModal(null);
+                setCurrentView('guide');
+              }}
             />
           </Modal>
         )}
@@ -15793,5 +15848,455 @@ function TransactionForm({ type, initialData, clients, cards, onSubmit, onCancel
         <button type="submit" className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors shadow-sm cursor-pointer">Save Transaction</button>
       </div>
     </form>
+  );
+}
+
+// --- SUPPORT & HELPDESK MODAL COMPONENT ---
+function SupportDeskModal({
+  workspaceSettings,
+  subscription,
+  theme,
+  supportTickets = [],
+  setSupportTickets,
+  onClose,
+  onOpenGuide
+}) {
+  const [activeTab, setActiveTab] = useState('new'); // 'new' | 'list'
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedTicketId, setCopiedTicketId] = useState(false);
+  const [category, setCategory] = useState('Payment / Subscription Issue');
+  const [priority, setPriority] = useState('Normal');
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
+  const [createdTicket, setCreatedTicket] = useState(null);
+
+  const SUPPORT_EMAIL = 'veloxadsphere@gmail.com';
+
+  const handleCopyEmail = () => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(SUPPORT_EMAIL);
+      }
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2000);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleCopyTicket = (id) => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(id);
+      }
+      setCopiedTicketId(true);
+      setTimeout(() => setCopiedTicketId(false), 2000);
+    } catch (e) {}
+  };
+
+  const handleSubmitTicket = (e) => {
+    e.preventDefault();
+    if (!subject.trim() || !message.trim()) return;
+
+    const ticketId = 'QTX-' + Math.floor(10000 + Math.random() * 90000);
+    const newTicket = {
+      id: ticketId,
+      category,
+      priority,
+      subject: subject.trim(),
+      message: message.trim(),
+      status: 'Open',
+      createdAt: new Date().toISOString(),
+      workspaceName: workspaceSettings?.businessName || 'Quantrex Workspace',
+      planName: subscription?.planName || (subscription?.status === 'active' ? 'Starter Plan' : '3-Day Free Trial'),
+    };
+
+    setSupportTickets(prev => [newTicket, ...(Array.isArray(prev) ? prev : [])]);
+    setCreatedTicket(newTicket);
+  };
+
+  const handleOpenEmailForTicket = (ticket) => {
+    const mailSubject = encodeURIComponent('[' + ticket.id + '] ' + ticket.category + ': ' + ticket.subject);
+    const mailBody = encodeURIComponent(
+      'Hello Quantrex Support Team,\n\n' +
+      'Ticket ID: ' + ticket.id + '\n' +
+      'Workspace: ' + ticket.workspaceName + '\n' +
+      'Plan: ' + (ticket.planName || 'Starter Plan') + '\n' +
+      'Category: ' + ticket.category + '\n' +
+      'Priority: ' + ticket.priority + '\n' +
+      'Date: ' + new Date(ticket.createdAt).toLocaleString() + '\n\n' +
+      'Problem / Inquiry:\n' + ticket.message + '\n\n' +
+      '---\nSubmitted via Quantrex App Support Desk'
+    );
+    window.open('mailto:' + SUPPORT_EMAIL + '?subject=' + mailSubject + '&body=' + mailBody, '_blank');
+  };
+
+  const handleDirectEmail = () => {
+    const biz = workspaceSettings?.businessName || 'Quantrex Workspace';
+    const mailSubject = encodeURIComponent('Quantrex Support Request - ' + biz);
+    const mailBody = encodeURIComponent(
+      'Hello Quantrex Team,\n\n' +
+      'Workspace: ' + biz + '\n' +
+      'Plan: ' + (subscription?.planName || (subscription?.status === 'active' ? 'Starter Plan' : 'Trial')) + '\n\n' +
+      'My Question / Problem:\n'
+    );
+    window.open('mailto:' + SUPPORT_EMAIL + '?subject=' + mailSubject + '&body=' + mailBody, '_blank');
+  };
+
+  const inputClass = 'w-full bg-white dark:bg-[#090d16] border border-slate-300 dark:border-slate-700/80 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 rounded-xl px-3.5 py-2.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-sky-500/30 focus:border-sky-500 transition-all';
+  const labelClass = 'block text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5';
+
+  return (
+    <div className="space-y-4">
+      {/* TOP DIRECT CHANNELS CARDS */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {/* Email Support Card */}
+        <div className="p-3.5 rounded-2xl bg-[#f4f7fb] dark:bg-[#0e1524] border border-slate-200/80 dark:border-slate-800/80 flex items-start gap-3 relative overflow-hidden group">
+          <div className="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0 border border-sky-500/20 shadow-xs">
+            <Mail size={17} className="stroke-[2.5]" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center justify-between">
+              <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+                Official Support Email
+              </span>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="text-[10px] font-extrabold text-sky-600 dark:text-sky-400 hover:underline inline-flex items-center gap-1 cursor-pointer"
+                title="Copy email to clipboard"
+              >
+                {copiedEmail ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
+                {copiedEmail ? 'Copied' : 'Copy'}
+              </button>
+            </div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5 select-all">
+              {SUPPORT_EMAIL}
+            </div>
+            <button
+              type="button"
+              onClick={handleDirectEmail}
+              className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-[10.5px] font-bold shadow-xs transition-all cursor-pointer"
+            >
+              <ExternalLink size={11} />
+              <span>Compose Email</span>
+            </button>
+          </div>
+        </div>
+
+        {/* User Manual & SOP Card */}
+        <div className="p-3.5 rounded-2xl bg-[#f4f7fb] dark:bg-[#0e1524] border border-slate-200/80 dark:border-slate-800/80 flex items-start gap-3 relative overflow-hidden group">
+          <div className="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20 shadow-xs">
+            <BookOpen size={17} className="stroke-[2.5]" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <span className="text-[10.5px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+              Interactive Documentation
+            </span>
+            <div className="text-xs font-bold text-slate-900 dark:text-white truncate mt-0.5">
+              Quantrex SOP &amp; User Manual
+            </div>
+            <button
+              type="button"
+              onClick={onOpenGuide}
+              className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 text-[10.5px] font-bold shadow-xs transition-all cursor-pointer border border-slate-300/60 dark:border-slate-700/60"
+            >
+              <BookOpen size={11} />
+              <span>Open User Guide</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* SUPPORT SLA STATUS BANNER */}
+      <div className="px-3.5 py-2 rounded-xl bg-emerald-500/10 dark:bg-emerald-950/20 border border-emerald-500/20 flex items-center justify-between text-xs text-emerald-700 dark:text-emerald-300">
+        <div className="flex items-center gap-2 font-medium text-[11.5px]">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+          <span>Support Desk Status: <strong>Online</strong> (10:00 AM – 11:00 PM BST)</span>
+        </div>
+        <span className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold hidden sm:inline">
+          Average response: &lt; 2-4 hours
+        </span>
+      </div>
+
+      {/* TAB NAVIGATION: SUBMIT TICKET VS MY TICKETS */}
+      <div className="flex items-center gap-2 border-b border-slate-200/80 dark:border-slate-800/80 pb-2.5">
+        <button
+          type="button"
+          onClick={() => { setActiveTab('new'); setCreatedTicket(null); }}
+          className={'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ' + (
+            activeTab === 'new'
+              ? 'bg-sky-600 text-white shadow-sm'
+              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800'
+          )}
+        >
+          <HelpCircle size={13} />
+          <span>Submit Support Ticket</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('list')}
+          className={'px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ' + (
+            activeTab === 'list'
+              ? 'bg-sky-600 text-white shadow-sm'
+              : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800'
+          )}
+        >
+          <FileText size={13} />
+          <span>My Tickets</span>
+          <span className={'px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ' + (
+            activeTab === 'list' ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+          )}>
+            {supportTickets.length}
+          </span>
+        </button>
+      </div>
+
+      {/* TAB CONTENT */}
+      {activeTab === 'new' ? (
+        createdTicket ? (
+          /* TICKET CREATION SUCCESS CONFIRMATION */
+          <div className="p-5 rounded-2xl bg-white dark:bg-[#0c121e] border border-emerald-500/30 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto border border-emerald-500/20 shadow-xs">
+              <CheckCircle2 size={26} className="stroke-[2.5]" />
+            </div>
+
+            <div>
+              <div className="text-base font-extrabold text-slate-900 dark:text-white">
+                Ticket Created Successfully!
+              </div>
+              <div className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
+                Your inquiry has been registered in your workspace ledger. Our support team will review it.
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-[#070b13] border border-slate-200/80 dark:border-slate-800 max-w-md mx-auto text-left text-xs space-y-1.5">
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Ticket ID:</span>
+                <span className="font-mono font-bold text-sky-600 dark:text-sky-400 flex items-center gap-1">
+                  #{createdTicket.id}
+                  <button
+                    type="button"
+                    onClick={() => handleCopyTicket(createdTicket.id)}
+                    className="p-1 hover:text-white text-slate-400 cursor-pointer"
+                    title="Copy ID"
+                  >
+                    {copiedTicketId ? <Check size={11} className="text-emerald-500" /> : <Copy size={11} />}
+                  </button>
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Category:</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{createdTicket.category}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-400">Status:</span>
+                <span className="px-2 py-0.5 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold text-[10.5px]">
+                  ● Open (Pending Review)
+                </span>
+              </div>
+              <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80">
+                <div className="font-semibold text-slate-800 dark:text-slate-200 truncate">{createdTicket.subject}</div>
+                <div className="text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5">{createdTicket.message}</div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 pt-2">
+              <button
+                type="button"
+                onClick={() => handleOpenEmailForTicket(createdTicket)}
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold shadow-md shadow-sky-600/20 inline-flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Mail size={14} />
+                <span>Email Ticket to veloxadsphere@gmail.com</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => { setCreatedTicket(null); setActiveTab('list'); }}
+                className="w-full sm:w-auto px-4 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer"
+              >
+                View My Tickets
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* TICKET INPUT FORM */
+          <form onSubmit={handleSubmitTicket} className="space-y-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className={labelClass}>Issue Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className={inputClass}
+                >
+                  <option value="Payment / Subscription Issue">💳 Payment / Subscription Issue</option>
+                  <option value="Bug / Error Report">🐞 Bug / Error Report</option>
+                  <option value="Feature Request">💡 Feature Request</option>
+                  <option value="How to Use / Questions">❓ How to Use / Questions</option>
+                  <option value="Account &amp; Workspace Setup">⚙️ Account &amp; Workspace Setup</option>
+                  <option value="Other Assistance">💬 Other Assistance</option>
+                </select>
+              </div>
+
+              <div>
+                <label className={labelClass}>Priority Level</label>
+                <select
+                  value={priority}
+                  onChange={(e) => setPriority(e.target.value)}
+                  className={inputClass}
+                >
+                  <option value="Normal">Normal Priority</option>
+                  <option value="Urgent">⚡ High / Urgent Priority</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className={labelClass}>Subject / Summary</label>
+              <input
+                type="text"
+                required
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                placeholder="E.g., bKash payment verification inquiry or client export error..."
+                className={inputClass}
+              />
+            </div>
+
+            <div>
+              <label className={labelClass}>Problem Details &amp; Questions</label>
+              <textarea
+                required
+                rows={4}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Please describe the issue, what page it happened on, or any details to help us assist you faster..."
+                className={inputClass}
+              />
+            </div>
+
+            {/* DIAGNOSTIC WORKSPACE BADGE */}
+            <div className="px-3 py-2 rounded-xl bg-slate-100 dark:bg-[#070b13] border border-slate-200/80 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+              <span className="truncate">
+                Workspace: <strong className="text-slate-800 dark:text-slate-200">{workspaceSettings?.businessName || 'Quantrex Workspace'}</strong>
+              </span>
+              <span className="shrink-0 ml-2">
+                Plan: <strong className="text-sky-600 dark:text-sky-400">{subscription?.planName || (subscription?.status === 'active' ? 'Starter' : 'Free Trial')}</strong>
+              </span>
+            </div>
+
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-200/80 dark:border-slate-800/80">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-extrabold shadow-md shadow-sky-600/25 transition-all inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <HelpCircle size={14} />
+                <span>Submit Ticket</span>
+              </button>
+            </div>
+          </form>
+        )
+      ) : (
+        /* MY TICKETS LIST */
+        <div className="space-y-3">
+          {supportTickets.length === 0 ? (
+            <div className="py-12 text-center space-y-3">
+              <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800/80 text-slate-400 flex items-center justify-center mx-auto border border-slate-200 dark:border-slate-700">
+                <HelpCircle size={22} />
+              </div>
+              <div>
+                <div className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                  No Support Tickets Yet
+                </div>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  When you submit a support request, it will be listed here with its real-time status.
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveTab('new')}
+                className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold shadow-xs transition-all cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <HelpCircle size={13} />
+                <span>Create a Ticket</span>
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
+              {supportTickets.map((t) => (
+                <div
+                  key={t.id}
+                  className="p-3.5 rounded-xl bg-white dark:bg-[#0c121e] border border-slate-200/80 dark:border-slate-800/80 space-y-2 hover:border-slate-300 dark:hover:border-slate-700 transition-all shadow-xs"
+                >
+                  <div className="flex items-center justify-between gap-2 flex-wrap">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-bold text-xs text-sky-600 dark:text-sky-400">
+                        #{t.id}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[10.5px] font-bold text-slate-700 dark:text-slate-300">
+                        {t.category}
+                      </span>
+                      {t.priority === 'Urgent' && (
+                        <span className="px-1.5 py-0.2 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 font-extrabold text-[9.5px]">
+                          ⚡ Urgent
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className={'px-2 py-0.5 rounded-md text-[10.5px] font-bold ' + (
+                        t.status === 'Resolved'
+                          ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400'
+                          : t.status === 'Under Review'
+                            ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400'
+                            : 'bg-sky-500/15 text-sky-600 dark:text-sky-400'
+                      )}>
+                        ● {t.status || 'Open'}
+                      </span>
+                      <span className="text-[10px] text-slate-400">
+                        {new Date(t.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="text-xs font-bold text-slate-900 dark:text-white">
+                      {t.subject}
+                    </div>
+                    <div className="text-[11.5px] text-slate-600 dark:text-slate-400 mt-1 whitespace-pre-line bg-slate-50 dark:bg-[#070b13] p-2.5 rounded-lg border border-slate-100 dark:border-slate-800/80">
+                      {t.message}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[10px] text-slate-400">
+                      Target: {SUPPORT_EMAIL}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenEmailForTicket(t)}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-sky-600 dark:text-sky-400 hover:underline cursor-pointer"
+                    >
+                      <Mail size={12} />
+                      <span>Email Update to veloxadsphere@gmail.com</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
